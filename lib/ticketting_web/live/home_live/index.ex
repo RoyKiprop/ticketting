@@ -9,6 +9,7 @@ defmodule TickettingWeb.HomeLive.Index do
     ~H"""
     <div>
       <.hero />
+      <.events />
     </div>
     """
   end
