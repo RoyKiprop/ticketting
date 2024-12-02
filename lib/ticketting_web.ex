@@ -86,6 +86,8 @@ defmodule TickettingWeb do
       # Core UI components and translation
       import TickettingWeb.CoreComponents
       import TickettingWeb.Gettext
+      import TickettingWeb.Navigation
+      import TickettingWeb.HomeComponents
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS

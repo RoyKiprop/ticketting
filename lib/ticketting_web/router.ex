@@ -14,11 +14,11 @@ defmodule TickettingWeb.Router do
     plug :accepts, ["json"]
   end
 
-  # scope "/", TickettingWeb do
-  #   pipe_through :browser
+  scope "/", TickettingWeb do
+    pipe_through :browser
 
-  #   get "/", PageController, :home
-  # end
+    get "/", PageController, :home
+  end
 
   # Other scopes may use custom stacks.
   # scope "/api", TickettingWeb do
