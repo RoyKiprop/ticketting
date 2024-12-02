@@ -3,7 +3,7 @@ defmodule TickettingWeb.HomeComponents do
 
   def hero(assigns) do
     ~H"""
-    <div class="w-[100%] bg-[#7FC7FF] h-[100vh] ">
+    <div class="w-[100%] bg-[#7FC7FF] h-[90vh] ">
       <div class="w-[85%] flex justify-between items-center h-[100vh]  mx-auto">
         <div class="w-[45%] h-[100%] flex flex-col gap-8 justify-center items-start">
           <div class="">

@@ -17,11 +17,11 @@ defmodule TickettingWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", TickettingWeb do
-    pipe_through :browser
+  # scope "/", TickettingWeb do
+  #   pipe_through :browser
 
-    get "/", PageController, :home
-  end
+  #   get "/", PageController, :home
+  # end
 
   # Other scopes may use custom stacks.
   # scope "/api", TickettingWeb do
@@ -80,6 +80,8 @@ defmodule TickettingWeb.Router do
       on_mount: [{TickettingWeb.UserAuth, :mount_current_user}] do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
+
+      live "/", HomeLive.Index, :index
     end
   end
 end
