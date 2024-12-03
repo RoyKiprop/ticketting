@@ -2,6 +2,7 @@ defmodule Ticketting.Events.Event do
   use Ecto.Schema
   import Ecto.Changeset
 
+
   schema "events" do
     field :name, :string
     field :date, :naive_datetime
