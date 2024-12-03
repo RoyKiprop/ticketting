@@ -19,7 +19,26 @@ defmodule Ticketting.Events.Event do
   @doc false
   def changeset(event, attrs) do
     event
-    |> cast(attrs, [:name, :description, :location, :image, :start_time, :end_time, :is_active, :slug, :date])
-    |> validate_required([:name, :description, :location, :image, :start_time, :end_time, :is_active, :slug, :date])
+    |> cast(attrs, [
+      :name,
+      :description,
+      :location,
+      :image,
+      :start_time,
+      :end_time,
+      :is_active,
+      :slug,
+      :date
+    ])
+    |> validate_required([
+      :name,
+      :description,
+      :location,
+      :image,
+      :start_time,
+      :end_time,
+      :is_active,
+      :date
+    ])
   end
 end

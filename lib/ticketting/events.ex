@@ -55,6 +55,13 @@ defmodule Ticketting.Events do
     |> Repo.insert()
   end
 
+  def upcoming_events do
+    Event
+    |> where([e], e.date > ^DateTime.utc_now() and e.is_active == true)
+    |> order_by([e], asc: e.date)
+    |> Repo.all()
+  end
+
   @doc """
   Updates a event.
 

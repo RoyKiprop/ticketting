@@ -20,9 +20,34 @@ defmodule TickettingWeb.EventLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:name]} type="text" label="Name" />
-        <.input field={@form[:description]} type="text" label="Description" />
+        <.input field={@form[:description]} type="textarea" rows="8" label="Description" />
         <.input field={@form[:location]} type="text" label="Location" />
-        <.input field={@form[:image]} type="text" label="Image" />
+        <div class="space-y-2">
+          <label class="block text-sm font-medium">Image</label>
+          <div class="flex items-center space-x-4 ">
+            <.live_file_input upload={@uploads.image} class="cursor-pointer" />
+          </div>
+
+          <%= for entry <- @uploads.image.entries do %>
+            <div class="flex flex-col space-y-2 ">
+              <.live_img_preview entry={entry} class="h-32 w-32 object-cover rounded-lg" />
+              <div class="space-y-1">
+                <button
+                  type="button"
+                  class="text-red-500 text-sm"
+                  phx-click="cancel-upload"
+                  phx-value-ref={entry.ref}
+                  phx-target={@myself}
+                >
+                  Cancel Upload
+                </button>
+              </div>
+            </div>
+            <%= for err <- upload_errors(@uploads.image, entry) do %>
+              <div class="text-red-500 text-sm"><%= err %></div>
+            <% end %>
+          <% end %>
+        </div>
         <.input field={@form[:start_time]} type="time" label="Start time" />
         <.input field={@form[:end_time]} type="time" label="End time" />
         <.input field={@form[:is_active]} type="checkbox" label="Is active" />
@@ -41,6 +66,11 @@ defmodule TickettingWeb.EventLive.FormComponent do
     {:ok,
      socket
      |> assign(assigns)
+     |> allow_upload(:image,
+       accept: ~w(.jpg .jpeg .png .svg),
+       max_entries: 1,
+       max_file_size: 10_000_000
+     )
      |> assign_new(:form, fn ->
        to_form(Events.change_event(event))
      end)}
@@ -53,6 +83,19 @@ defmodule TickettingWeb.EventLive.FormComponent do
   end
 
   def handle_event("save", %{"event" => event_params}, socket) do
+    uploaded_files =
+      consume_uploaded_entries(socket, :image, fn %{path: path}, _entry ->
+        dest = Path.join(["priv", "static", "uploads", Path.basename(path)])
+        File.cp!(path, dest)
+        {:ok, "/uploads/#{Path.basename(path)}"}
+      end)
+
+    event_params =
+      case uploaded_files do
+        [image_path] -> Map.put(event_params, "image", image_path)
+        [] -> event_params
+      end
+
     save_event(socket, socket.assigns.action, event_params)
   end
 

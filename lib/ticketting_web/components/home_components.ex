@@ -44,51 +44,58 @@ defmodule TickettingWeb.HomeComponents do
         </a>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-white shadow-xl rounded-lg overflow-hidden">
-          <div class="relative">
-            <img src={Obinna} alt="" class="w-full h-48 object-cover" />
-          </div>
-          <div class="p-4">
-            <div class="space-y-2 items-center mb-2">
-              <h3 class="text-xl font-bold text-gray-800 mb-1 ">
-                NAKURU MOTOR CLUB 1ST ANNIVERSARY
-              </h3>
-              <p class="text-gray-600 text-sm mb-2 ">Ksh. 4500 - 9750</p>
-              <div class="flex items-center space-x-1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 mr-1"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                </svg>
-                <p class="text-gray-600 text-sm ">MTONI CAMP, GILGIL</p>
-              </div>
-              <div>
-                <span class="text-gray-600 text-center text-sm ">
-                  NOV 01
-                </span>
-              </div>
+        <%= for event <- @upcoming_events do %>
+          <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+            <div class="relative">
+              <img src={event.image} alt="" class="w-full h-48 object-cover" />
             </div>
+            <div class="p-4">
+              <div class="space-y-2 items-center mb-2">
+                <h3 class="text-xl font-bold text-gray-800 mb-1 ">
+                  <%= event.name %>
+                </h3>
+                <p class="text-gray-600 text-sm mb-2 ">
+                  <%= Timex.format!(event.start_time, "{h12}:{0m} {am}") %> - <%= Timex.format!(
+                    event.end_time,
+                    "{h12}:{0m} {am}"
+                  ) %>
+                </p>
 
-            <button class="w-[35%] mt-3 bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-300">
-              Get Tickets
-            </button>
+                <p class="text-gray-600  text-sm ">
+                  <%= Timex.format!(event.date, "{Mshort} {D}") %>
+                </p>
+
+                <div class="flex items-center space-x-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 mr-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                  <p class="text-gray-600 text-sm "><%= event.location %></p>
+                </div>
+              </div>
+
+              <button class="w-[35%] mt-3 bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-300">
+                Get Tickets
+              </button>
+            </div>
           </div>
-        </div>
+        <% end %>
       </div>
     </div>
     """

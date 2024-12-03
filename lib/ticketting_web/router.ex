@@ -82,6 +82,13 @@ defmodule TickettingWeb.Router do
       live "/users/confirm", UserConfirmationInstructionsLive, :new
 
       live "/", HomeLive.Index, :index
+
+      live "/events", EventLive.Index, :index
+      live "/events/new", EventLive.Index, :new
+      live "/events/:id/edit", EventLive.Index, :edit
+
+      live "/events/:id", EventLive.Show, :show
+      live "/events/:id/show/edit", EventLive.Show, :edit
     end
   end
 end
