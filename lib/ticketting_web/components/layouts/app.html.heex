@@ -2,8 +2,11 @@
 <main>
   <div>
     <.flash_group flash={@flash} />
-    <!--  <.system_navbar current_user={@current_user} />  -->
-    <.navigation />
+    <div class="flex justify-between">
+      <.navigation current_user={@current_user} />
+      <.system_navbar current_user={@current_user} />
+    </div>
+
     <%= @inner_content %>
   </div>
 </main>

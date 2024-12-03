@@ -13,6 +13,8 @@ defmodule Ticketting.Events.Event do
     field :is_active, :boolean, default: false
     field :slug, :string
 
+    belongs_to :user, Ticketting.Accounts.User
+
     timestamps(type: :utc_datetime)
   end
 
@@ -28,7 +30,8 @@ defmodule Ticketting.Events.Event do
       :end_time,
       :is_active,
       :slug,
-      :date
+      :date,
+      :user_id
     ])
     |> validate_required([
       :name,
