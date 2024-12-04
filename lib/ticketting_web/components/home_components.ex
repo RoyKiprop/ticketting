@@ -90,7 +90,11 @@ defmodule TickettingWeb.HomeComponents do
                 </div>
               </div>
 
-              <button class="w-[35%] mt-3 bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-300">
+              <button
+                phx-click="view-event"
+                phx-value-slug={event.slug}
+                class="w-[35%] mt-3 bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-300"
+              >
                 Get Tickets
               </button>
             </div>

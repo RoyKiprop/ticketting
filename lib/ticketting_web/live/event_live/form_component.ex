@@ -83,6 +83,12 @@ defmodule TickettingWeb.EventLive.FormComponent do
   end
 
   def handle_event("save", %{"event" => event_params}, socket) do
+    IO.inspect(socket)
+
+    event_params =
+      event_params
+      |> Map.put("user_id", socket.assigns.current_user.id)
+
     uploaded_files =
       consume_uploaded_entries(socket, :image, fn %{path: path}, _entry ->
         dest = Path.join(["priv", "static", "uploads", Path.basename(path)])

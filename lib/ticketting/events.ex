@@ -37,6 +37,10 @@ defmodule Ticketting.Events do
   """
   def get_event!(id), do: Repo.get!(Event, id)
 
+  def get_event_by_slug(slug) do
+    Repo.get_by(Event, slug: slug)
+  end
+
   @doc """
   Creates a event.
 
@@ -59,6 +63,12 @@ defmodule Ticketting.Events do
     Event
     |> where([e], e.date > ^DateTime.utc_now() and e.is_active == true)
     |> order_by([e], asc: e.date)
+    |> Repo.all()
+  end
+
+  def list_user_events(user_id) do
+    Event
+    |> where([e], e.user_id == ^user_id)
     |> Repo.all()
   end
 

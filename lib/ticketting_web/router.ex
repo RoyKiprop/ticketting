@@ -68,6 +68,20 @@ defmodule TickettingWeb.Router do
       on_mount: [{TickettingWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+
+      live "/events", EventLive.Index, :index
+      live "/events/new", EventLive.Index, :new
+      live "/events/:id/edit", EventLive.Index, :edit
+
+      live "/events/:id", EventLive.Show, :show
+      live "/events/:id/show/edit", EventLive.Show, :edit
+
+      live "/ticket_types", TicketTypeLive.Index, :index
+      live "/ticket_types/new", TicketTypeLive.Index, :new
+      live "/ticket_types/:id/edit", TicketTypeLive.Index, :edit
+
+      live "/ticket_types/:id", TicketTypeLive.Show, :show
+      live "/ticket_types/:id/show/edit", TicketTypeLive.Show, :edit
     end
   end
 
@@ -83,19 +97,7 @@ defmodule TickettingWeb.Router do
 
       live "/", HomeLive.Index, :index
 
-      live "/events", EventLive.Index, :index
-      live "/events/new", EventLive.Index, :new
-      live "/events/:id/edit", EventLive.Index, :edit
-
-      live "/events/:id", EventLive.Show, :show
-      live "/events/:id/show/edit", EventLive.Show, :edit
-
-      live "/ticket_types", TicketTypeLive.Index, :index
-      live "/ticket_types/new", TicketTypeLive.Index, :new
-      live "/ticket_types/:id/edit", TicketTypeLive.Index, :edit
-
-      live "/ticket_types/:id", TicketTypeLive.Show, :show
-      live "/ticket_types/:id/show/edit", TicketTypeLive.Show, :edit
+      live "/tickets/:slug", TicketDetailsLive.Index, :index
     end
   end
 end

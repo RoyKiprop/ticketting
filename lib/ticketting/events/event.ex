@@ -2,7 +2,6 @@ defmodule Ticketting.Events.Event do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "events" do
     field :name, :string
     field :date, :naive_datetime
@@ -44,5 +43,18 @@ defmodule Ticketting.Events.Event do
       :is_active,
       :date
     ])
+    |> generate_slug()
+  end
+
+  defp generate_slug(changeset) do
+    if name = get_change(changeset, :name) do
+      slug =
+        name
+        |> Slug.slugify()
+
+      put_change(changeset, :slug, slug)
+    else
+      changeset
+    end
   end
 end

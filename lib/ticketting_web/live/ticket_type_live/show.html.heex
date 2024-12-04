@@ -20,7 +20,12 @@
 
 <.back navigate={~p"/ticket_types"}>Back to ticket_types</.back>
 
-<.modal :if={@live_action == :edit} id="ticket_type-modal" show on_cancel={JS.patch(~p"/ticket_types/#{@ticket_type}")}>
+<.modal
+  :if={@live_action == :edit}
+  id="ticket_type-modal"
+  show
+  on_cancel={JS.patch(~p"/ticket_types/#{@ticket_type}")}
+>
   <.live_component
     module={TickettingWeb.TicketTypeLive.FormComponent}
     id={@ticket_type.id}

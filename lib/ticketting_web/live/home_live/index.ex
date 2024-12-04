@@ -11,6 +11,12 @@ defmodule TickettingWeb.HomeLive.Index do
      |> assign(upcoming_events: upcoming_events)}
   end
 
+  def handle_event("view-event", %{"slug" => slug}, socket) do
+    {:noreply,
+     socket
+     |> push_navigate(to: "/tickets/#{slug}")}
+  end
+
   def render(assigns) do
     ~H"""
     <div>

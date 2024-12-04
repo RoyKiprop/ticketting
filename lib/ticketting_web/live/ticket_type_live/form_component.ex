@@ -2,6 +2,7 @@ defmodule TickettingWeb.TicketTypeLive.FormComponent do
   use TickettingWeb, :live_component
 
   alias Ticketting.TicketTypes
+  alias Ticketting.Events
 
   @impl true
   def render(assigns) do
@@ -21,6 +22,12 @@ defmodule TickettingWeb.TicketTypeLive.FormComponent do
       >
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:description]} type="text" label="Description" />
+        <.input
+          field={@form[:event_id]}
+          type="select"
+          label="Event"
+          options={Enum.map(@events, &{&1.name, &1.id})}
+        />
         <.input field={@form[:price]} type="number" label="Price" step="any" />
         <.input field={@form[:quantity_sold]} type="number" label="Quantity sold" />
         <.input field={@form[:quantity_available]} type="number" label="Quantity available" />
@@ -36,9 +43,13 @@ defmodule TickettingWeb.TicketTypeLive.FormComponent do
 
   @impl true
   def update(%{ticket_type: ticket_type} = assigns, socket) do
+    user_id = assigns.current_user.id
+    events = Events.list_user_events(user_id)
+
     {:ok,
      socket
      |> assign(assigns)
+     |> assign(:events, events)
      |> assign_new(:form, fn ->
        to_form(TicketTypes.change_ticket_type(ticket_type))
      end)}
@@ -51,6 +62,10 @@ defmodule TickettingWeb.TicketTypeLive.FormComponent do
   end
 
   def handle_event("save", %{"ticket_type" => ticket_type_params}, socket) do
+    ticket_type_params =
+      ticket_type_params
+      |> Map.put("user_id", socket.assigns.current_user.id)
+
     save_ticket_type(socket, socket.assigns.action, ticket_type_params)
   end
 
