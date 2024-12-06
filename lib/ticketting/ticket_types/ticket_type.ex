@@ -19,7 +19,25 @@ defmodule Ticketting.TicketTypes.TicketType do
   @doc false
   def changeset(ticket_type, attrs) do
     ticket_type
-    |> cast(attrs, [:name, :description, :price, :quantity_sold, :quantity_available, :activate_on, :deactivate_on])
-    |> validate_required([:name, :description, :price, :quantity_sold, :quantity_available, :activate_on, :deactivate_on])
+    |> cast(attrs, [
+      :name,
+      :description,
+      :price,
+      :quantity_sold,
+      :quantity_available,
+      :activate_on,
+      :deactivate_on,
+      :user_id,
+      :event_id
+    ])
+    |> validate_required([
+      :name,
+      :description,
+      :price,
+      :quantity_sold,
+      :quantity_available,
+      :activate_on,
+      :deactivate_on
+    ])
   end
 end

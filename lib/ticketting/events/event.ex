@@ -14,6 +14,7 @@ defmodule Ticketting.Events.Event do
     field :slug, :string
 
     belongs_to :user, Ticketting.Accounts.User
+    has_many :ticket_types, Ticketting.TicketTypes.TicketType
 
     timestamps(type: :utc_datetime)
   end

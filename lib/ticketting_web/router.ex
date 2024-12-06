@@ -76,6 +76,13 @@ defmodule TickettingWeb.Router do
       live "/events/:id", EventLive.Show, :show
       live "/events/:id/show/edit", EventLive.Show, :edit
 
+      live "/tickets", TicketLive.Index, :index
+      live "/tickets/new", TicketLive.Index, :new
+      live "/tickets/:id/edit", TicketLive.Index, :edit
+
+      live "/tickets/:id", TicketLive.Show, :show
+      live "/tickets/:id/show/edit", TicketLive.Show, :edit
+
       live "/ticket_types", TicketTypeLive.Index, :index
       live "/ticket_types/new", TicketTypeLive.Index, :new
       live "/ticket_types/:id/edit", TicketTypeLive.Index, :edit
@@ -97,7 +104,8 @@ defmodule TickettingWeb.Router do
 
       live "/", HomeLive.Index, :index
 
-      live "/tickets/:slug", TicketDetailsLive.Index, :index
+      live "/:slug/tickets", TicketDetailsLive.Index, :index
+      live "/:slug/tickets/buy", TicketDetailsLive.Buy
     end
   end
 end

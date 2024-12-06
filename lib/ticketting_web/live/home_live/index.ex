@@ -14,7 +14,7 @@ defmodule TickettingWeb.HomeLive.Index do
   def handle_event("view-event", %{"slug" => slug}, socket) do
     {:noreply,
      socket
-     |> push_navigate(to: "/tickets/#{slug}")}
+     |> push_navigate(to: "/#{slug}/tickets")}
   end
 
   def render(assigns) do

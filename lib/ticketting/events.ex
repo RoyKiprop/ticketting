@@ -7,6 +7,7 @@ defmodule Ticketting.Events do
   alias Ticketting.Repo
 
   alias Ticketting.Events.Event
+  alias Ticketting.TicketTypes.TicketType
 
   @doc """
   Returns the list of events.
@@ -38,7 +39,15 @@ defmodule Ticketting.Events do
   def get_event!(id), do: Repo.get!(Event, id)
 
   def get_event_by_slug(slug) do
-    Repo.get_by(Event, slug: slug)
+    query =
+      from e in Event,
+        left_join: tt in TicketType,
+        on: tt.event_id == e.id,
+        where: tt.quantity_available > 0,
+        where: e.slug == ^slug,
+        preload: [ticket_types: tt]
+
+    Repo.one!(query)
   end
 
   @doc """
@@ -64,6 +73,16 @@ defmodule Ticketting.Events do
     |> where([e], e.date > ^DateTime.utc_now() and e.is_active == true)
     |> order_by([e], asc: e.date)
     |> Repo.all()
+  end
+
+  def random_events(event_id) do
+    Repo.all(
+      from e in Event,
+        where: e.id != ^event_id,
+        where: e.is_active == true,
+        limit: 3,
+        order_by: fragment("RANDOM()")
+    )
   end
 
   def list_user_events(user_id) do

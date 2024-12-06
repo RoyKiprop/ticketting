@@ -10,6 +10,7 @@ defmodule Ticketting.Accounts.User do
     field :confirmed_at, :utc_datetime
 
     has_many :events, Ticketting.Events.Event
+    has_many :ticket_types, Ticketting.TicketTypes.TicketType
 
     timestamps(type: :utc_datetime)
   end

@@ -173,17 +173,28 @@ defmodule TickettingWeb.TicketDetails do
   def price_options(assigns) do
     ~H"""
     <div class="px-6 py-20 bg-gray-100 md:px-12 lg:px-32">
-      <div class="space-y-5 bg-white shadow-lg rounded-lg px-5 py-8 max-w-xs group hover:border-b-[#7fc8ff] hover:border-r-[#7fc8ff] border-transparent border-b-4 border-r-4 transition-all">
-        <h2 class="text-3xl font-bold mb-2 text-center">Early Bird</h2>
-        <div>
-          <p class="text-md text-gray-600 text-center">Valid on Sat, Oct 19, 2024</p>
-          <p class="text-md text-gray-600 text-center mb-4">Starts on 04:00 PM</p>
-        </div>
+      <div class="grid grid-cols-1 md:grid-cols-3">
+        <%= for ticket <- @ticket_types do %>
+          <div class="space-y-5 bg-white shadow-lg rounded-lg px-5 py-8 max-w-md group border-b-[#7fc8ff] border-r-[#7fc8ff] border-transparent border-b-4 border-r-4 transition-all">
+            <h2 class="text-3xl font-bold mb-2 text-center"><%= ticket.name %></h2>
+            <h2 class="text-base font-normal mb-2 text-center"><%= ticket.description %></h2>
+            <div>
+              <p class="text-md text-gray-600 text-center">
+                Valid From: <%= Timex.format!(ticket.activate_on, "{Mfull} {D}, {YYYY}") %>
+              </p>
+              <p class="text-md text-gray-600 text-center mb-4">Starts on 04:00 PM</p>
+            </div>
 
-        <p class="text-3xl font-semibold text-center mb-4">Ksh. 800</p>
-        <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded w-full hover:bg-blue-600">
-          Book Your Ticket
-        </button>
+            <p class="text-3xl font-semibold text-center mb-4">Ksh. <%= ticket.price %></p>
+            <button
+              phx-click="buy-ticket"
+              phx-value-type={ticket.name}
+              class="bg-blue-500 text-white font-bold py-2 px-4 rounded w-full hover:bg-blue-600"
+            >
+              Buy Ticket
+            </button>
+          </div>
+        <% end %>
       </div>
     </div>
     """
@@ -193,29 +204,32 @@ defmodule TickettingWeb.TicketDetails do
     ~H"""
     <div class="px-6 py-20 bg-white md:px-12 lg:px-32">
       <h2 class="text-3xl font-bold mb-4">You may also like</h2>
-      <!--Other likes Section -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-white shadow-xl rounded-lg overflow-hidden group hover:border-b-[#7fc8ff] hover:border-r-[#7fc8ff] border-b-4 border-r-4 border-transparent">
-          <div class="relative">
-            <img src="/images/Obinna.svg" alt="" class="w-full h-48 object-cover" />
-          </div>
-          <div class="p-4">
-            <div class="flex space-x-4 items-center mb-2">
-              <div>
-                <span class="text-gray-600 text-center text-md font-semibold">
-                  NOV 01
-                </span>
-              </div>
-
-              <div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <%= for random_event <- @random_events do %>
+          <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+            <div class="relative">
+              <img src={random_event.image} alt="" class="w-full h-48 object-cover" />
+            </div>
+            <div class="p-4">
+              <div class="space-y-2 items-center mb-2">
                 <h3 class="text-xl font-bold text-gray-800 mb-1 ">
-                  NAKURU MOTOR CLUB 1ST ANNIVERSARY
+                  <%= random_event.name %>
                 </h3>
-                <p class="text-gray-600 text-md mb-2 ">Ksh. 4500 - 9750</p>
-                <div class="flex space-x-1">
+                <p class="text-gray-600 text-sm mb-2 ">
+                  <%= Timex.format!(random_event.start_time, "{h12}:{0m} {am}") %> - <%= Timex.format!(
+                    random_event.end_time,
+                    "{h12}:{0m} {am}"
+                  ) %>
+                </p>
+
+                <p class="text-gray-600  text-sm ">
+                  <%= Timex.format!(random_event.date, "{Mshort} {D}") %>
+                </p>
+
+                <div class="flex items-center space-x-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4 mr-1"
+                    class="h-5 w-5 mr-1"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -233,16 +247,20 @@ defmodule TickettingWeb.TicketDetails do
                       d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                     />
                   </svg>
-                  <p class="text-gray-600 text-md">MTONI CAMP, GILGIL</p>
+                  <p class="text-gray-600 text-sm "><%= random_event.location %></p>
                 </div>
               </div>
-            </div>
 
-            <button class="w-[35%] mt-3 bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-300">
-              Get Tickets
-            </button>
+              <button
+                phx-click="view-event"
+                phx-value-slug={random_event.slug}
+                class="w-[35%] mt-3 bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-300"
+              >
+                Get Tickets
+              </button>
+            </div>
           </div>
-        </div>
+        <% end %>
       </div>
     </div>
     """
