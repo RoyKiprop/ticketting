@@ -107,6 +107,10 @@ defmodule TickettingWeb.Router do
 
       live "/permissions/:id", PermissionLive.Show, :show
       live "/permissions/:id/show/edit", PermissionLive.Show, :edit
+
+      live "/organisers", AdminUserLive.Index, :index
+      live "/organisers/new", AdminUserLive.Index, :new
+      live "/oranisers/:id/edit", AdminUserLive.Index, :edi
     end
   end
 

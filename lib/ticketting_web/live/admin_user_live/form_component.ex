@@ -1,4 +1,4 @@
-defmodule TickettingWeb.UserLive.FormComponent do
+defmodule TickettingWeb.AdminUserLive.FormComponent do
   use TickettingWeb, :live_component
 
   alias Ticketting.Accounts
@@ -23,8 +23,9 @@ defmodule TickettingWeb.UserLive.FormComponent do
           type="select"
           label="Role"
           field={@form[:role_id]}
-          options={Enum.map(@roles, &{&1.name, &1.id})}
+          options={Enum.map(@filtered_roles, &{&1.name, &1.id})}
         />
+        <.input type="checkbox" label="Active" field={@form[:active]} />
         <.input type="checkbox" label="Active" field={@form[:active]} />
 
         <:actions>
@@ -37,7 +38,9 @@ defmodule TickettingWeb.UserLive.FormComponent do
 
   @impl true
   def update(%{user: user} = assigns, socket) do
-    roles = Accounts.list_roles()
+    roles =
+      Accounts.list_roles()
+      |> Enum.reject(fn role -> role.name == "event_organizer" end)
 
     {:ok,
      socket
@@ -74,13 +77,13 @@ defmodule TickettingWeb.UserLive.FormComponent do
   end
 
   defp save_user(socket, :new, user_params) do
-    case Accounts.change_user(user_params) do
+    case Accounts.create_user(user_params) do
       {:ok, user} ->
         notify_parent({:saved, user})
 
         {:noreply,
          socket
-         |> put_flash(:info, "user created successfully")
+         |> put_flash(:info, "User created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
