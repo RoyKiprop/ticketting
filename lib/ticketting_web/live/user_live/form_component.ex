@@ -1,7 +1,7 @@
 defmodule TickettingWeb.UserLive.FormComponent do
   use TickettingWeb, :live_component
 
-  alias Ticketting.Account
+  alias Ticketting.Accounts
 
   @impl true
   def render(assigns) do
@@ -66,7 +66,7 @@ defmodule TickettingWeb.UserLive.FormComponent do
   end
 
   defp save_user(socket, :new, user_params) do
-    case Accounts.create_user(user_params) do
+    case Accounts.change_user(user_params) do
       {:ok, user} ->
         notify_parent({:saved, user})
 
