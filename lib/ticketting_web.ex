@@ -58,6 +58,15 @@ defmodule TickettingWeb do
     end
   end
 
+  def super_admin_live_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {TickettingWeb.Layouts, :super_admin}
+
+      unquote(html_helpers())
+    end
+  end
+
   def live_component do
     quote do
       use Phoenix.LiveComponent
@@ -89,6 +98,7 @@ defmodule TickettingWeb do
       import TickettingWeb.Navigation
       import TickettingWeb.HomeComponents
       import TickettingWeb.TicketDetails
+      import TickettingWeb.SidebarComponents
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS

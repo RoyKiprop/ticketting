@@ -7,6 +7,9 @@ defmodule Ticketting.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
+    field :super_admin, :boolean, default: false
+    field :role, :string, default: "admin"
+    field :active, :boolean, default: true
     field :confirmed_at, :utc_datetime
 
     has_many :events, Ticketting.Events.Event
@@ -123,6 +126,12 @@ defmodule Ticketting.Accounts.User do
     |> cast(attrs, [:password])
     |> validate_confirmation(:password, message: "does not match password")
     |> validate_password(opts)
+  end
+
+  def create_changeset(changeset, attrs, opts \\ []) do
+    changeset
+    |> cast(attrs, [:email, :super_admin, :active, :hashed_password, :role])
+    |> validate_email(opts)
   end
 
   @doc """
