@@ -1,5 +1,5 @@
 defmodule TickettingWeb.PermissionLive.Show do
-  use TickettingWeb, :live_view
+  use TickettingWeb, :super_admin_live_view
 
   alias Ticketting.Accounts
 

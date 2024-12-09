@@ -12,7 +12,7 @@ defmodule Ticketting.Accounts.Permission do
   @doc false
   def changeset(permission, attrs) do
     permission
-    |> cast(attrs, [:name])
+    |> cast(attrs, [:name, :role_id])
     |> validate_required([:name])
   end
 end

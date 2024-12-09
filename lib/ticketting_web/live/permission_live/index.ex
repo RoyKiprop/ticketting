@@ -1,5 +1,5 @@
 defmodule TickettingWeb.PermissionLive.Index do
-  use TickettingWeb, :live_view
+  use TickettingWeb, :super_admin_live_view
 
   alias Ticketting.Accounts
   alias Ticketting.Accounts.Permission

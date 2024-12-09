@@ -8,13 +8,12 @@ defmodule Ticketting.Accounts.User do
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
     field :super_admin, :boolean, default: false
-    field :role, :string, default: "admin"
     field :active, :boolean, default: true
     field :confirmed_at, :utc_datetime
 
     has_many :events, Ticketting.Events.Event
     has_many :ticket_types, Ticketting.TicketTypes.TicketType
-    belongs_to :roles, Ticketting.Accounts.Role
+    belongs_to :role, Ticketting.Accounts.Role
 
     timestamps(type: :utc_datetime)
   end
@@ -44,7 +43,7 @@ defmodule Ticketting.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password, :role_id, :active, :super_admin])
+    |> cast(attrs, [:email, :password])
     |> validate_email(opts)
     |> validate_password(opts)
   end
@@ -131,7 +130,7 @@ defmodule Ticketting.Accounts.User do
 
   def create_changeset(changeset, attrs, opts \\ []) do
     changeset
-    |> cast(attrs, [:email, :super_admin, :active, :hashed_password, :role])
+    |> cast(attrs, [:email, :super_admin, :active, :hashed_password, :role_id])
     |> validate_email(opts)
   end
 

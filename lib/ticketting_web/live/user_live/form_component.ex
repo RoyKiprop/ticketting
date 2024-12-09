@@ -19,8 +19,13 @@ defmodule TickettingWeb.UserLive.FormComponent do
         phx-submit="save"
       >
         <.input type="text" label="Email" field={@form[:email]} />
+        <.input
+          type="select"
+          label="Role"
+          field={@form[:role_id]}
+          options={Enum.map(@roles, &{&1.name, &1.id})}
+        />
         <.input type="checkbox" label="Active" field={@form[:active]} />
-        <.input type="checkbox" label="Super Admin" field={@form[:super_admin]} />
 
         <:actions>
           <.button phx-disable-with="Saving...">Save User</.button>
@@ -32,9 +37,12 @@ defmodule TickettingWeb.UserLive.FormComponent do
 
   @impl true
   def update(%{user: user} = assigns, socket) do
+    roles = Accounts.list_roles()
+
     {:ok,
      socket
      |> assign(assigns)
+     |> assign(roles: roles)
      |> assign_new(:form, fn ->
        to_form(Accounts.change_user(user))
      end)}

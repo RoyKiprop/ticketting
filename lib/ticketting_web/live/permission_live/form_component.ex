@@ -20,6 +20,12 @@ defmodule TickettingWeb.PermissionLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:name]} type="text" label="Name" />
+        <.input
+          field={@form[:role_id]}
+          type="select"
+          label="Role"
+          options={Enum.map(@roles, &{&1.name, &1.id})}
+        />
         <:actions>
           <.button phx-disable-with="Saving...">Save Permission</.button>
         </:actions>
@@ -30,9 +36,12 @@ defmodule TickettingWeb.PermissionLive.FormComponent do
 
   @impl true
   def update(%{permission: permission} = assigns, socket) do
+    roles = Accounts.list_roles()
+
     {:ok,
      socket
      |> assign(assigns)
+     |> assign(roles: roles)
      |> assign_new(:form, fn ->
        to_form(Accounts.change_permission(permission))
      end)}
