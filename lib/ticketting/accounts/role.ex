@@ -4,6 +4,7 @@ defmodule Ticketting.Accounts.Role do
 
   schema "roles" do
     field :name, :string
+    has_many :permissions, Ticketting.Accounts.Permission
 
     timestamps(type: :utc_datetime)
   end

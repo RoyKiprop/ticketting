@@ -14,6 +14,7 @@ defmodule Ticketting.Accounts.User do
 
     has_many :events, Ticketting.Events.Event
     has_many :ticket_types, Ticketting.TicketTypes.TicketType
+    belongs_to :roles, Ticketting.Accounts.Role
 
     timestamps(type: :utc_datetime)
   end
