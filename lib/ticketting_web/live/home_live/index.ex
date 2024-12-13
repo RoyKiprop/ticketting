@@ -9,7 +9,7 @@ defmodule TickettingWeb.HomeLive.Index do
 
     {:ok,
      socket
-     |> assign(upcoming_events: upcoming_events)}
+     |> assign(upcoming_events: upcoming_events, open_faq: nil)}
   end
 
   def handle_event("view-event", %{"slug" => slug}, socket) do
@@ -18,11 +18,20 @@ defmodule TickettingWeb.HomeLive.Index do
      |> push_navigate(to: "/#{slug}/tickets")}
   end
 
+  def handle_event("toggle_faq", %{"question" => question}, socket) do
+    new_open_faq = if socket.assigns.open_faq == question, do: nil, else: question
+
+    {:noreply,
+     socket
+     |> assign(open_faq: new_open_faq)}
+  end
+
   def render(assigns) do
     ~H"""
     <div>
       <.hero />
       <.events upcoming_events={@upcoming_events} />
+      <.faqs open_faq={@open_faq} />
     </div>
     """
   end

@@ -135,4 +135,75 @@ defmodule TickettingWeb.HomeComponents do
       "/images/hero6.png"
     ]
   end
+
+  def faqs(assigns) do
+    ~H"""
+    <div class="w-full max-w-[1500px] mx-auto px-4 py-16 md:py-20">
+      <div class="flex flex-col md:flex-row items-center space-y-5 md:space-x-4 ">
+        <div class="w-full md:w-2/5 text-center md:text-left">
+          <h2 class="text-3xl md:text-4xl font-bold text-black mb-6 w-full md:w-[80%]">
+            Frequently Asked Questions
+          </h2>
+          <p class="text-gray-600 mb-8 max-w-md mx-auto md:mx-0">
+            Find quick answers to common questions about our events,
+            ticketing process, and payment options.
+          </p>
+          <button
+            phx-click="contact_support"
+            class="bg-black text-white px-6 py-3 rounded-full
+                   hover:bg-black/60 transition duration-300
+                   transform hover:scale-105"
+          >
+            Contact Support
+          </button>
+        </div>
+
+        <div class="w-full md:w-3/5 space-y-4">
+          <%= for {question, answer} <- faq_items() do %>
+            <div
+              class=" bg-white rounded shadow-xs border border-black
+                     transition-all duration-300 ease-in-out"
+              phx-click="toggle_faq"
+              phx-value-question={question}
+            >
+              <div class="flex justify-between items-center p-6 cursor-pointer">
+                <h3 class="text-lg font-semibold text-black">
+                  <%= question %>
+                </h3>
+                <i class={[
+                  "bi transition-transform duration-300",
+                  if(@open_faq == question,
+                    do: "bi-chevron-up",
+                    else: "bi-chevron-down"
+                  )
+                ]} />
+              </div>
+
+              <%= if @open_faq == question do %>
+                <div class="px-6 pb-6 text-gray-600 animate-fade-in">
+                  <%= answer %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    """
+  end
+
+  defp faq_items do
+    [
+      {"What if I need help?",
+       "If you need help, our customer support team is available 24/7. You can reach us through our contact page or email. We're committed to providing timely and helpful assistance."},
+      {"How do I buy tickets?",
+       "You can purchase tickets directly through our website. Simply browse available events, select the one you're interested in, choose your tickets, and follow the checkout process."},
+      {"Can I pay later?",
+       "We currently don't offer a pay-later option. All tickets must be paid for at the time of purchase to secure your spot at the event. We accept multiple payment methods for your convenience."},
+      {"Are tickets refundable?",
+       "Our refund policy varies depending on the event. Generally, tickets are non-refundable but may be transferable. Please check the specific event details or contact our support team for more information."},
+      {"What payment methods are accepted?",
+       "We accept a wide range of payment methods including major credit/debit cards, PayPal, Apple Pay, Google Pay, and other mobile payment options. The available methods will be clearly displayed during checkout."}
+    ]
+  end
 end
