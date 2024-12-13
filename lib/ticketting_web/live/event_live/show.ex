@@ -1,5 +1,5 @@
 defmodule TickettingWeb.EventLive.Show do
-  use TickettingWeb, :live_view
+  use TickettingWeb, :admin_live_view
 
   alias Ticketting.Events
 

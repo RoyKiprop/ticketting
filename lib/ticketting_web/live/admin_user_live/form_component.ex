@@ -23,7 +23,7 @@ defmodule TickettingWeb.AdminUserLive.FormComponent do
           type="select"
           label="Role"
           field={@form[:role_id]}
-          options={Enum.map(@filtered_roles, &{&1.name, &1.id})}
+          options={Enum.map(@roles, &{&1.name, &1.id})}
         />
         <.input type="checkbox" label="Active" field={@form[:active]} />
         <.input type="checkbox" label="Active" field={@form[:active]} />
@@ -40,7 +40,7 @@ defmodule TickettingWeb.AdminUserLive.FormComponent do
   def update(%{user: user} = assigns, socket) do
     roles =
       Accounts.list_roles()
-      |> Enum.reject(fn role -> role.name == "event_organizer" end)
+      |> Enum.filter(fn role -> role.name == "event_organizer" end)
 
     {:ok,
      socket
@@ -77,7 +77,7 @@ defmodule TickettingWeb.AdminUserLive.FormComponent do
   end
 
   defp save_user(socket, :new, user_params) do
-    case Accounts.create_user(user_params) do
+    case Accounts.register_user(user_params) do
       {:ok, user} ->
         notify_parent({:saved, user})
 

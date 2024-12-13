@@ -43,7 +43,7 @@ defmodule TickettingWeb.AdminUserLive.Index do
       <.header>
         Listing Users
         <:actions>
-          <.link patch={~p"/organisers/new"}>
+          <.link patch={~p"/organizers/new"}>
             <.button>Add User</.button>
           </.link>
         </:actions>
@@ -54,7 +54,7 @@ defmodule TickettingWeb.AdminUserLive.Index do
         <:col :let={{_id, user}} label="Active"><%= user.active %></:col>
         <:col :let={{_id, user}} label="Super Admin"><%= user.super_admin %></:col>
         <:action :let={{_id, user}}>
-          <.link patch={~p"/users/#{user}/edit"}>Edit</.link>
+          <.link patch={~p"/orgnizers/#{user}/edit"}>Edit</.link>
         </:action>
       </.table>
 
@@ -62,7 +62,7 @@ defmodule TickettingWeb.AdminUserLive.Index do
         :if={@live_action in [:new, :edit]}
         id="user-modal"
         show
-        on_cancel={JS.patch(~p"/organisers")}
+        on_cancel={JS.patch(~p"/organizers")}
       >
         <.live_component
           module={TickettingWeb.AdminUserLive.FormComponent}

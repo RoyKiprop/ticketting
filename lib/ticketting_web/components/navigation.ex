@@ -1,177 +1,275 @@
 defmodule TickettingWeb.Navigation do
   use Phoenix.Component
+  alias Phoenix.LiveView.JS
 
   def navigation(assigns) do
     ~H"""
-    <nav class="bg-white py-4">
-      <div class=" mx-32 flex justify-between items-center">
-        <div class="">
-          <.link navigate="/">
-            <img src="" alt="Logo" />
-          </.link>
-        </div>
+    <div class="bg-white ">
+      <nav class="fixed top-0 left-0 right-0 z-50 bg-white ">
+        <div class="flex items-center justify-between max-w-[1500px] mx-auto py-5 px-4 ">
+          <div>
+            <.link navigate="/">
+              <img src="" alt="Logo" class="h-8 w-auto" />
+            </.link>
+          </div>
 
-        <div class="space-x-8 hidden md:flex">
-          <.link class=" text-[#525560] hover:text-[#1E1E1E]" navigate="/">Home</.link>
-          <.link class=" text-[#525560] hover:text-[#1E1E1E]" navigate="#">Events</.link>
-          <.link class=" text-[#525560] hover:text-[#1E1E1E]" navigate="/about">About Us</.link>
-          <.link class=" text-[#525560] hover:text-[#1E1E1E]" navigate="#">Contact</.link>
-        </div>
+          <div class="hidden md:flex items-center space-x-8">
+            <%= for link <- nav_links(@current_user) do %>
+              <.nav_link name={link.name} link={link.link} />
+            <% end %>
+          </div>
 
-        <div class="hidden md:block">
-          <.link navigate="#">
-            <button class="bg-[#1e1e1e] text-white font-bold px-6 py-3 rounded-full hover:bg-gray-800">
-              Buy Tickets
-            </button>
-          </.link>
+          <div class="hidden md:flex items-center space-x-12">
+            <.link navigate="#">
+              <button class="bg-black text-white font-medium px-6 py-2 rounded-md  hover:bg-gray-800 transition">
+                Buy Tickets
+              </button>
+            </.link>
+            <.login_signUp current_user={@current_user} />
+          </div>
+
+          <.mobile_nav current_user={@current_user} />
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
     """
   end
 
-  def system_navbar(assigns) do
+  defp nav_links(current_user) do
+    base_links = [
+      %{name: "Home", link: "/"},
+      %{name: "Events", link: "/Ticketting"},
+      %{name: "About Us", link: "/upcoming-events"},
+      %{name: "Contact Us", link: "/#contact-us"}
+    ]
+
+    admin_link =
+      if current_user && current_user.active do
+        case current_user.role_id do
+          1 -> [%{name: "Admin", link: "/super_admin/dashboard"}]
+          2 -> [%{name: "Admin", link: "/admin/dashboard"}]
+          3 -> [%{name: "Admin", link: "/admin/dashboard"}]
+          _ -> []
+        end
+      else
+        []
+      end
+
+    base_links ++ admin_link
+  end
+
+  defp nav_link(assigns) do
     ~H"""
-    <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
-      <%= if @current_user do %>
-        <li>
-          <.link
-            navigate="/events"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Events Dashboard
-          </.link>
-          <.link
-            navigate="/users/settings"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Settings
-          </.link>
-        </li>
-        <li>
-          <.link
-            navigate="/users/log_out"
-            method="delete"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Log out
-          </.link>
-        </li>
-      <% else %>
-        <li>
-          <.link
-            navigate="/users/log_in"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Log in
-          </.link>
-        </li>
-      <% end %>
-    </ul>
+    <.link
+      navigate={@link}
+      class="font-medium text-md md:text-base text-[#525560] hover:text-[#1E1E1E]"
+    >
+      <%= @name %>
+    </.link>
     """
+  end
+
+  def mobile_nav(assigns) do
+    ~H"""
+    <div class="md:hidden">
+      <!-- Hamburger Button -->
+      <button
+        type="button"
+        phx-click={toggle_mobile_menu()}
+        class="p-2 text-black hover:bg-gray-200 rounded-md"
+      >
+        <svg
+          class="h-12 w-12"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
+
+      <div
+        id="mobile-menu"
+        class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm z-40"
+        phx-click-away={hide_mobile_menu()}
+      >
+        <div class="fixed right-0 top-0 h-[75%] w-[260px] bg-[#030129] p-6 shadow-lg space-y-6">
+          <div class="flex justify-end">
+            <button phx-click={hide_mobile_menu()} class="text-gray-400 hover:text-white">
+              <svg
+                class="h-8 w-8"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <%= for link <- nav_links(@current_user) do %>
+            <.link
+              navigate={link.link}
+              class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium block"
+              phx-click={hide_mobile_menu()}
+            >
+              <%= link.name %>
+            </.link>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    """
+  end
+
+  def login_signUp(assigns) do
+    ~H"""
+    <%= if @current_user do %>
+      <.link navigate="/users/log_out" method="delete" class="inline-block">
+        <button class="px-4 py-2 bg-black hover:bg-gray-800 text-white font-medium rounded-md transition-colors duration-300 ease-in-out">
+          Log Out
+        </button>
+      </.link>
+    <% else %>
+      <.link navigate="/users/log_in" class="inline-block">
+        <button class="px-8 py-3 bg-[#0d1238] hover:bg-[#0d1238]/80 text-white font-medium rounded-md transition-colors duration-300 ease-in-out">
+          Log In
+        </button>
+      </.link>
+    <% end %>
+    """
+  end
+
+  # Mobile Menu Toggle Functions
+  defp toggle_mobile_menu() do
+    JS.toggle(to: "#mobile-menu")
+  end
+
+  defp hide_mobile_menu() do
+    JS.hide(to: "#mobile-menu")
   end
 
   def footer(assigns) do
     ~H"""
-    <footer class="bg-[#7fc8ff] py-8">
-      <div class="w-[85%] mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 text-center md:text-left text-sm text-gray-800">
-        <div>
-          <div class="flex items-center">
-            <img src="/images/Event_tick.svg" />
-            <h2 class="text-2xl font-bold flex items-center space-x-2 text-[#4C4D8B]">
-              Eventick
+    <footer class="bg-[#7fc8ff] py-12 px-4">
+      <div class="w-full max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
+        <div class="md:col-span-1">
+          <div class=" mb-4">
+            <h2 class="text-2xl font-bold text-[#4C4D8B]">
+              Events
             </h2>
           </div>
-          <p class="mt-2 max-w-xs text-[#4C4D8B]">
-            Eventick is a global self-service ticketing platform for live
+
+          <p class="text-[#4C4D8B] max-w-xs mx-auto md:mx-0 text-sm leading-relaxed">
+            Events is a global self-service ticketing platform for live
             experiences that allows anyone to create, share, find, and attend
             events that fuel their passions and enrich their lives.
           </p>
 
-          <div class="flex mt-4 space-x-4">
+          <div class="flex justify-center md:justify-start space-x-4 mt-6">
             <a
               href="#"
-              class="flex items-center justify-center text-white rounded-full h-8 w-8 bg-[#3b5599]"
+              class="text-white bg-[#3b5599] hover:bg-opacity-80 transition-colors duration-300
+                     rounded-full h-10 w-10 flex items-center justify-center"
             >
-              <i class="fab fa-facebook-f"></i>
+              <i class="bi bi-facebook text-lg"></i>
             </a>
+
             <a
               href="#"
-              class="flex items-center justify-center text-white rounded-full h-8 w-8 bg-[#5caff0]"
+              class="text-white bg-black hover:bg-opacity-80 transition-colors duration-300
+                     rounded-full h-10 w-10 flex items-center justify-center"
             >
-              <i class="fab fa-twitter"></i>
+              <i class="bi bi-twitter-x text-lg"></i>
             </a>
+
             <a
               href="#"
-              class=" flex items-center justify-center text-white rounded-full h-8 w-8 bg-[#0177a7]"
+              class="text-white bg-[#0077B5] hover:bg-opacity-80 transition-colors duration-300
+                     rounded-full h-10 w-10 flex items-center justify-center"
             >
-              <i class="fab fa-linkedin-in"></i>
+              <i class="bi bi-linkedin text-lg"></i>
+            </a>
+
+            <a
+              href="#"
+              class="text-white bg-pink-600 hover:bg-opacity-80 transition-colors duration-300
+                     rounded-full h-10 w-10 flex items-center justify-center"
+            >
+              <i class="bi bi-instagram text-lg"></i>
             </a>
           </div>
         </div>
 
-        <div>
-          <h3 class="text-lg font-semibold text-[#4C4D8B]">Eventick</h3>
-          <ul class="mt-2 space-y-2 text-[#4C4D8B]">
-            <li>
-              <a href="#" class="hover:underline">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="#" class="hover:underline">
-                Events
-              </a>
-            </li>
-            <li>
-              <a href="#" class="hover:underline">
-                About Us
-              </a>
-            </li>
-            <li>
-              <a href="#" class="hover:underline">
-                Contact Us
-              </a>
-            </li>
+        <div class="md:col-span-1">
+          <h3 class="text-lg font-semibold text-[#4C4D8B] mb-4">Events</h3>
+          <ul class="space-y-3 text-[#4C4D8B]">
+            <%= for {label, link} <- [
+              {"Home", "#"},
+              {"Events", "#"},
+              {"About Us", "#"},
+              {"Contact Us", "#"}
+            ] do %>
+              <li>
+                <a href={link} class="hover:text-blue-800 transition-colors">
+                  <%= label %>
+                </a>
+              </li>
+            <% end %>
           </ul>
         </div>
 
-        <div>
-          <h3 class="text-lg font-semibold text-[#4C4D8B]">Contact Us</h3>
-          <ul class="mt-2 space-y-2 text-[#4C4D8B]">
-            <li>
-              Telephone: <span class="font-semibold">+254741363084</span>
-            </li>
-            <li>
-              Email:
-              <a href="mailto:example@gmail.com" class="text-[#4C4D8B] hover:underline">
-                <span class="font-semibold">example@gmail.com</span>
+        <div class="md:col-span-1">
+          <h3 class="text-lg font-semibold text-[#4C4D8B] mb-4">Contact Us</h3>
+          <div class="space-y-3 text-[#4C4D8B]">
+            <p>
+              <span class="font-medium">Telephone:</span>
+              <a href="tel:+254741363084" class="hover:text-blue-800 transition-colors">
+                +254 700 000 000
               </a>
-            </li>
-          </ul>
+            </p>
+            <p>
+              <span class="font-medium">Email:</span>
+              <a href="mailto:example@gmail.com" class="hover:text-blue-800 transition-colors">
+                example@gmail.com
+              </a>
+            </p>
+          </div>
         </div>
 
-        <div>
-          <h3 class="text-lg font-semibold text-[#4C4D8B]">Social</h3>
-          <div class="flex mt-2 space-x-4">
-            <a href="#" class="text-[#4C4D8B]">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="text-[#4C4D8B]">
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a href="#" class="text-[#4C4D8B]">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="text-[#4C4D8B]">
-              <i class="fab fa-youtube"></i>
-            </a>
+        <div class="md:col-span-1">
+          <h3 class="text-lg font-semibold text-[#4C4D8B] mb-4">Follow Us</h3>
+          <div class="flex justify-center md:justify-start space-x-4 text-[#4C4D8B]">
+            <%= for {icon, link} <- [
+              {"facebook", "#"},
+              {"instagram", "#"},
+              {"twitter-x", "#"},
+              {"linkedin", "#"}
+            ] do %>
+              <a href={link} class="hover:text-blue-800 transition-colors text-xl">
+                <i class={"bi bi-#{icon}"}></i>
+              </a>
+            <% end %>
           </div>
         </div>
       </div>
 
-      <div class="border-t border-gray-600 mx-40 mt-8 pt-4 text-center text-[#4C4D8B]">
-        <p>Copyright © 2024 Pyraus Group</p>
+      <div class="border-t border-gray-600/30 max-w-[1500px] mx-auto mt-12 pt-6 text-center">
+        <p class="text-[#4C4D8B] text-sm">
+          Copyright © <%= Date.utc_today().year %> Roy Kiprop
+        </p>
       </div>
     </footer>
     """

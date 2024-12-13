@@ -1,5 +1,5 @@
 defmodule TickettingWeb.TicketTypeLive.Index do
-  use TickettingWeb, :live_view
+  use TickettingWeb, :admin_live_view
 
   alias Ticketting.TicketTypes
   alias Ticketting.TicketTypes.TicketType

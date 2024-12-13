@@ -43,26 +43,6 @@ defmodule TickettingWeb.SidebarComponents do
     """
   end
 
-  def organizer_sidebar(assigns) do
-    ~H"""
-    <div class="w-[18%] p-5 h-[100vh] bg-white shadow-sm shadow-gray-400">
-      <%= for slot <- organizer_sidebar_slots() do %>
-        <.organizer_slot name={slot.name} link={slot.link} />
-      <% end %>
-    </div>
-    """
-  end
-
-  defp organizer_slot(assigns) do
-    ~H"""
-    <div class="w-[100%] p-2 hover:bg-gray-100 rounded-md">
-      <.link navigate={@link}>
-        <%= @name %>
-      </.link>
-    </div>
-    """
-  end
-
   defp super_admin_sidebar_slots do
     [
       %{
@@ -75,7 +55,7 @@ defmodule TickettingWeb.SidebarComponents do
       },
       %{
         name: "Users",
-        link: "/users"
+        link: "/super_admin/users"
       },
       %{
         name: "Roles",
@@ -100,7 +80,7 @@ defmodule TickettingWeb.SidebarComponents do
       },
       %{
         name: "Organizers",
-        link: "/users"
+        link: "/organizers"
       },
       %{
         name: "Ticket Types",
@@ -109,19 +89,6 @@ defmodule TickettingWeb.SidebarComponents do
       %{
         name: "Permissions",
         link: "/permissions"
-      }
-    ]
-  end
-
-  defp organizer_sidebar_slots do
-    [
-      %{
-        name: "Events",
-        link: "/events"
-      },
-      %{
-        name: "Ticket Types",
-        link: "/ticket_types"
       }
     ]
   end

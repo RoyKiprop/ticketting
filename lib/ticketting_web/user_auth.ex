@@ -164,6 +164,104 @@ defmodule TickettingWeb.UserAuth do
     end
   end
 
+  def on_mount(:ensure_super_admin, _params, session, socket) do
+    socket = mount_current_user(socket, session)
+
+    case socket.assigns.current_user do
+      %{role_id: role_id} when not is_nil(role_id) ->
+        role = Accounts.get_role!(role_id)
+
+        if role && role.name == "super_admin" do
+          {:cont, socket}
+        else
+          socket
+          |> Phoenix.LiveView.put_flash(:error, "You are not authorized to access this page.")
+          |> Phoenix.LiveView.redirect(to: ~p"/")
+          |> then(&{:halt, &1})
+        end
+
+      %{} ->
+        socket
+        |> Phoenix.LiveView.put_flash(:error, "You are not authorized to access this page.")
+        |> Phoenix.LiveView.redirect(to: ~p"/")
+        |> then(&{:halt, &1})
+
+      nil ->
+        socket
+        |> Phoenix.LiveView.put_flash(:error, "You must log in to access this page.")
+        |> Phoenix.LiveView.redirect(to: ~p"/users/log_in")
+        |> then(&{:halt, &1})
+    end
+  end
+
+  def on_mount(:ensure_admin, _params, session, socket) do
+    socket = mount_current_user(socket, session)
+
+    case socket.assigns.current_user do
+      %{role_id: role_id} when not is_nil(role_id) ->
+        role = Accounts.get_role!(role_id)
+
+        if role && (role.name == "super_admin" or role.name == "admin") do
+          {:cont, socket}
+        else
+          socket
+          |> Phoenix.LiveView.put_flash(:error, "You are not authorized to access this page.")
+          |> Phoenix.LiveView.redirect(to: ~p"/")
+
+          {:halt, socket}
+        end
+
+      %{} ->
+        socket
+        |> Phoenix.LiveView.put_flash(:error, "You are not authorized to access this page.")
+        |> Phoenix.LiveView.redirect(to: ~p"/")
+
+        {:halt, socket}
+
+      nil ->
+        socket
+        |> Phoenix.LiveView.put_flash(:error, "You must log in to access this page.")
+        |> Phoenix.LiveView.redirect(to: ~p"/users/log_in")
+
+        {:halt, socket}
+    end
+  end
+
+  def on_mount(:ensure_event_organizer, _params, session, socket) do
+    socket = mount_current_user(socket, session)
+
+    case socket.assigns.current_user do
+      %{role_id: role_id} when not is_nil(role_id) ->
+        role = Accounts.get_role!(role_id)
+
+        roles = ["super_admin", "admin", "event_organizer"]
+
+        if role && Enum.member?(roles, role.name) do
+          {:cont, socket}
+        else
+          socket
+          |> Phoenix.LiveView.put_flash(:error, "You are not authorized to access this page.")
+          |> Phoenix.LiveView.redirect(to: ~p"/")
+
+          {:halt, socket}
+        end
+
+      %{} ->
+        socket
+        |> Phoenix.LiveView.put_flash(:error, "You are not authorized to access this page.")
+        |> Phoenix.LiveView.redirect(to: ~p"/")
+
+        {:halt, socket}
+
+      nil ->
+        socket
+        |> Phoenix.LiveView.put_flash(:error, "You must log in to access this page.")
+        |> Phoenix.LiveView.redirect(to: ~p"/users/log_in")
+
+        {:halt, socket}
+    end
+  end
+
   def on_mount(:redirect_if_user_is_authenticated, _params, session, socket) do
     socket = mount_current_user(socket, session)
 

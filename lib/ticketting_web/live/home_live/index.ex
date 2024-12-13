@@ -4,6 +4,7 @@ defmodule TickettingWeb.HomeLive.Index do
   alias Ticketting.Events
 
   def mount(_params, _session, socket) do
+    IO.inspect(socket)
     upcoming_events = Events.upcoming_events()
 
     {:ok,
