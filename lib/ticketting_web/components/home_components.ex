@@ -58,7 +58,7 @@ defmodule TickettingWeb.HomeComponents do
         <%= for event <- @upcoming_events do %>
           <div class="bg-white shadow-lg  overflow-hidden">
             <div class="relative">
-              <img src={event.image} alt={event.name} class="w-full h-64 object-cover" />
+              <img src={event.image} alt={event.name} class="w-full h-72 object-cover" />
             </div>
 
             <div class="p-5">
@@ -103,7 +103,7 @@ defmodule TickettingWeb.HomeComponents do
               <button
                 phx-click="view-event"
                 phx-value-slug={event.slug}
-                class="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out"
+                class="w-full mt-4 bg-[#7fc8ff] text-white py-2 rounded-lg hover:bg-[#7fc8ff]/60 transition duration-300 ease-in-out"
               >
                 Get Tickets
               </button>
@@ -205,5 +205,113 @@ defmodule TickettingWeb.HomeComponents do
       {"What payment methods are accepted?",
        "We accept a wide range of payment methods including major credit/debit cards, PayPal, Apple Pay, Google Pay, and other mobile payment options. The available methods will be clearly displayed during checkout."}
     ]
+  end
+
+  def purchase_guide(assigns) do
+    ~H"""
+    <section class="w-full bg-white flex justify-center">
+      <div class="w-full max-w-[1500px] px-4 py-16 md:py-20 ">
+        <div class="text-center max-w-3xl mx-auto">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Your Guide to Hassle-Free Ticket Purchasing
+          </h2>
+          <p class="text-gray-600 text-base md:text-lg max-w-xl mx-auto">
+            Buying tickets has never been simpler. With our seamless payment options, you can secure your spot now.
+          </p>
+        </div>
+
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+          <div class="purchase-step flex flex-col items-center text-center transition-all duration-300 hover:scale-105">
+            <div class="mb-6 h-64 flex items-center justify-center">
+              <img
+                src="/images/upcoming.svg"
+                alt="Browse Upcoming Events"
+                class="max-h-full max-w-full object-contain"
+              />
+            </div>
+            <div class="step-content">
+              <h3 class="text-xl font-bold text-[#242565] mb-2">
+                Step 1: Browse Upcoming Events
+              </h3>
+              <p class="text-gray-600 text-sm md:text-base">
+                Explore our diverse range of events tailored for you.
+              </p>
+            </div>
+          </div>
+
+          <div class="purchase-step flex flex-col items-center text-center transition-all duration-300 hover:scale-105">
+            <div class="mb-6 h-64 flex items-center justify-center">
+              <img
+                src="/images/tickets.svg"
+                alt="Select Your Tickets"
+                class="max-h-full max-w-full object-contain"
+              />
+            </div>
+            <div class="step-content">
+              <h3 class="text-xl font-bold text-[#242565] mb-2">
+                Step 2: Select Your Tickets
+              </h3>
+              <p class="text-gray-600 text-sm md:text-base">
+                Choose the tickets that best fit your needs.
+              </p>
+            </div>
+          </div>
+
+          <div class="purchase-step flex flex-col items-center text-center transition-all duration-300 hover:scale-105">
+            <div class="mb-6 h-64 flex items-center justify-center">
+              <img
+                src="/images/checkout.svg"
+                alt="Checkout with Pay Later"
+                class="max-h-full max-w-full object-contain"
+              />
+            </div>
+            <div class="step-content">
+              <h3 class="text-xl font-bold text-[#242565] mb-2">
+                Step 3: Checkout
+              </h3>
+              <p class="text-gray-600 text-sm md:text-base">
+                Complete your purchase.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-12 text-center">
+          <a
+            href="#"
+            class="inline-block px-8 py-3 border-2 border-[#242565] text-[#242565] rounded-lg
+                   hover:bg-[#242565] hover:text-white
+                   transition-colors duration-300
+                   text-base font-semibold"
+          >
+            Learn More
+          </a>
+        </div>
+      </div>
+    </section>
+    """
+  end
+
+  def join_brands(assigns) do
+    ~H"""
+    <section class="w-full px-4 py-16 bg-white">
+      <div class="w-full max-w-[1500px] mx-auto text-center">
+        <h2 class="text-3xl font-bold text-indigo-900 mb-8">
+          Join these brands
+        </h2>
+        <p class="text-gray-600 mb-16 max-w-2xl mx-auto">
+          We've had the pleasure of working with industry-defining brands. These
+          are just some of them.
+        </p>
+        <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+          <img src="/images/Safaricom.svg" alt="Safaricom" class="h-10 md:h-16 object-contain" />
+          <img src="/images/Airtel.svg" alt="Airtel" class="h-10 md:h-16 object-contain" />
+          <img src="/images/Betika.svg" alt="Betika" class="h-10 md:h-16 object-contain" />
+          <img src="/images/Youtube.svg" alt="YouTube" class="h-10 md:h-16 object-contain" />
+          <img src="/images/Microsoft.svg" alt="Microsoft" class="h-10 md:h-16 object-contain" />
+        </div>
+      </div>
+    </section>
+    """
   end
 end

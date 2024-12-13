@@ -31,7 +31,9 @@ defmodule TickettingWeb.HomeLive.Index do
     <div>
       <.hero />
       <.events upcoming_events={@upcoming_events} />
+      <.purchase_guide />
       <.faqs open_faq={@open_faq} />
+      <.join_brands />
     </div>
     """
   end
