@@ -173,7 +173,7 @@ defmodule TickettingWeb.Navigation do
           </div>
 
           <p class="text-[#4C4D8B] max-w-xs mx-auto md:mx-0 text-sm leading-relaxed">
-            Events is a global self-service ticketing platform for live
+            Event is a global self-service ticketing platform for live
             experiences that allows anyone to create, share, find, and attend
             events that fuel their passions and enrich their lives.
           </p>

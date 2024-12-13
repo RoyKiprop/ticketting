@@ -3,9 +3,9 @@ defmodule TickettingWeb.TicketDetails do
 
   def ticket_info(assigns) do
     ~H"""
-    <div class="px-6 py-20 bg-white md:px-12 lg:px-32">
-      <div class="flex items-center mb-4">
-        <.link navigate="/" class="text-blue-500 mr-5">
+    <div class="px-4 py-28 md:py-24 bg-white max-w-[1500px] mx-auto">
+      <div class="flex items-center mb-6">
+        <.link navigate="/" class="text-blue-500 mr-4 hover:text-blue-700 transition-colors">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6"
@@ -21,146 +21,108 @@ defmodule TickettingWeb.TicketDetails do
             />
           </svg>
         </.link>
-        <h1 class="text-2xl font-bold">Ticket Options</h1>
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Ticket Options</h1>
       </div>
 
-      <div class="bg-white  md:mx-12 py-6">
-        <div class="flex flex-col md:flex-row">
-          <div class="w-full md:w-2/5 mb-4 md:mb-0 h-[60vh]">
-            <img src={@event.image} alt="Event Poster" class="w-full h-full" />
+      <div>
+        <div class="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-8">
+          <div class="w-full md:w-2/5 mb-4 md:mb-0 h-[50vh] md:h-[70vh]">
+            <img
+              src={@event.image}
+              alt="Event Poster"
+              class="w-full h-full object-cover rounded-lg shadow-md"
+            />
           </div>
 
-          <div class="w-full md:w-1/2 md:pl-4">
-            <h2 class="text-xl font-bold mb-2"><%= @event.name %></h2>
-            <p class="mb-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 inline mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-              <%= Timex.format!(@event.date, "{Mfull} {D}, {YYYY}") %>
-            </p>
-            <p class="mb-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 inline mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                />
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-              <%= @event.location %>
-            </p>
-            <p class="mb-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 inline mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <%= Timex.format!(@event.start_time, "{h12}:{0m} {am}") %> - <%= Timex.format!(
-                @event.end_time,
-                "{h12}:{0m} {am}"
-              ) %>
-            </p>
+          <div class="w-full md:w-3/5 space-y-4">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900"><%= @event.name %></h2>
 
-            <h3 class="font-bold mb-2">Event Information</h3>
-            <p class="text-md">
-              <%= @event.description %>
-            </p>
-            <div class="">
+            <div class="space-y-3 text-gray-700">
+              <p class="flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 mr-3 text-blue-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+                <%= Timex.format!(@event.date, "{Mfull} {D}, {YYYY}") %>
+              </p>
+
+              <p class="flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 mr-3 text-blue-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+                <%= @event.location %>
+              </p>
+
+              <p class="flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 mr-3 text-blue-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <%= Timex.format!(@event.start_time, "{h12}:{0m} {am}") %> - <%= Timex.format!(
+                  @event.end_time,
+                  "{h12}:{0m} {am}"
+                ) %>
+              </p>
+            </div>
+
+            <div class="mt-4">
+              <h3 class="text-xl font-bold mb-2 text-gray-900">Event Information</h3>
+              <p class="text-gray-700 leading-relaxed">
+                <%= @event.description %>
+              </p>
+            </div>
+
+            <div class="my-4">
               <h2 class="font-semibold mb-2">Share</h2>
-              <div class="flex space-X-8">
-                <a href="#" class="text-blue-500" title="Copy Link">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                    />
-                  </svg>
-                </a>
-                <a
-                  href="https://www.instagram.com/share"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-blue-500"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                  </svg>
-                </a>
-                <a
-                  href="https://twitter.com/intent/tweet"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-blue-500"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
-                  </svg>
-                </a>
-                <a
-                  href="https://www.facebook.com/sharer/sharer.php"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-blue-500"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
-                  </svg>
-                </a>
+              <div class="flex justify-start space-x-4 text-[#312f7e]">
+                <%= for {icon, link} <- [
+                      {"facebook", "#"},
+                      {"instagram", "#"},
+                      {"twitter-x", "#"},
+                      {"linkedin", "#"},
+                      {"whatsapp", "#"}
+                    ] do %>
+                  <a href={link} class="hover:text-[#312f7e]/60 transition-colors text-xl">
+                    <i class={"bi bi-#{icon}"}></i>
+                  </a>
+                <% end %>
               </div>
             </div>
           </div>
@@ -172,64 +134,95 @@ defmodule TickettingWeb.TicketDetails do
 
   def price_options(assigns) do
     ~H"""
-    <div class="px-6 py-20 bg-gray-100 md:px-12 lg:px-32">
-      <div class="grid grid-cols-1 md:grid-cols-3">
+    <section class="w-full  bg-gray-50">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1500px] mx-auto px-4 py-16">
         <%= for ticket <- @ticket_types do %>
-          <div class="space-y-5 bg-white shadow-lg rounded-lg px-5 py-8 max-w-md group border-b-[#7fc8ff] border-r-[#7fc8ff] border-transparent border-b-4 border-r-4 transition-all">
-            <h2 class="text-3xl font-bold mb-2 text-center"><%= ticket.name %></h2>
-            <h2 class="text-base font-normal mb-2 text-center"><%= ticket.description %></h2>
-            <div>
-              <p class="text-md text-gray-600 text-center">
-                Valid From: <%= Timex.format!(ticket.activate_on, "{Mfull} {D}, {YYYY}") %>
-              </p>
-              <p class="text-md text-gray-600 text-center mb-4">Starts on 04:00 PM</p>
-            </div>
+          <div class="
+            bg-white
+            rounded
+            shadow-md
+            overflow-hidden
 
-            <p class="text-3xl font-semibold text-center mb-4">Ksh. <%= ticket.price %></p>
-            <button
-              phx-click="buy-ticket"
-              phx-value-type={ticket.name}
-              class="bg-blue-500 text-white font-bold py-2 px-4 rounded w-full hover:bg-blue-600"
-            >
-              Buy Ticket
-            </button>
+            border-l-4
+            border-[#7fc8ff]
+            flex
+            flex-col
+          ">
+            <div class="p-6 text-center">
+              <h2 class="text-2xl font-bold text-gray-800 mb-2"><%= ticket.name %></h2>
+              <p class="text-gray-600 mb-4 text-xs"><%= ticket.description %></p>
+
+              <div class="mb-4 text-gray-700">
+                <p class="text-sm">
+                  <span class="font-semibold">Valid From:</span>
+                  <%= Timex.format!(ticket.activate_on, "{Mfull} {D}, {YYYY}") %>
+                </p>
+                <p class="text-sm">Starts at 04:00 PM</p>
+              </div>
+
+              <div class="text-3xl font-bold text-[#7fc8ff] mb-6">
+                Ksh. <%= ticket.price %>
+              </div>
+
+              <button
+                phx-click="buy-ticket"
+                phx-value-type={ticket.name}
+                class="
+                  w-full
+                  bg-[#7fc8ff]
+                  text-white
+                  font-bold
+                  py-3
+                  rounded-lg
+                  hover:bg-[#7fc8ff]/60
+                  transition
+                  duration-300
+                  ease-in-out
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-blue-400
+                "
+              >
+                Buy Ticket
+              </button>
+            </div>
           </div>
         <% end %>
       </div>
-    </div>
+    </section>
     """
   end
 
   def other_likes(assigns) do
     ~H"""
-    <div class="px-6 py-20 bg-white md:px-12 lg:px-32">
-      <h2 class="text-3xl font-bold mb-4">You may also like</h2>
+    <section class="w-full max-w-[1500px] mx-auto px-4 py-16 bg-white">
+      <h2 class="text-3xl font-bold mb-8 text-gray-800">You May Also Like</h2>
+
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <%= for random_event <- @random_events do %>
-          <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+          <div class="bg-white shadow-lg  overflow-hidden">
             <div class="relative">
-              <img src={random_event.image} alt="" class="w-full h-48 object-cover" />
+              <img src={random_event.image} alt={random_event.name} class="w-full h-72 object-cover" />
             </div>
-            <div class="p-4">
-              <div class="space-y-2 items-center mb-2">
-                <h3 class="text-xl font-bold text-gray-800 mb-1 ">
-                  <%= random_event.name %>
-                </h3>
-                <p class="text-gray-600 text-sm mb-2 ">
+
+            <div class="p-5">
+              <h3 class="text-xl font-bold text-gray-800 mb-2 truncate">
+                <%= random_event.name %>
+              </h3>
+
+              <div class="text-sm text-gray-600 space-y-1">
+                <p>
                   <%= Timex.format!(random_event.start_time, "{h12}:{0m} {am}") %> - <%= Timex.format!(
                     random_event.end_time,
                     "{h12}:{0m} {am}"
                   ) %>
                 </p>
+                <p><%= Timex.format!(random_event.date, "{Mshort} {D}") %></p>
 
-                <p class="text-gray-600  text-sm ">
-                  <%= Timex.format!(random_event.date, "{Mshort} {D}") %>
-                </p>
-
-                <div class="flex items-center space-x-1">
+                <div class="flex items-center mt-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 mr-1"
+                    class="h-5 w-5 mr-2 text-gray-500"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -247,14 +240,14 @@ defmodule TickettingWeb.TicketDetails do
                       d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                     />
                   </svg>
-                  <p class="text-gray-600 text-sm "><%= random_event.location %></p>
+                  <p class="truncate"><%= random_event.location %></p>
                 </div>
               </div>
 
               <button
                 phx-click="view-event"
                 phx-value-slug={random_event.slug}
-                class="w-[35%] mt-3 bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-300"
+                class="w-full mt-4 bg-[#7fc8ff] text-white py-2 rounded-lg hover:bg-[#7fc8ff]/60 transition duration-300 ease-in-out"
               >
                 Get Tickets
               </button>
@@ -262,7 +255,7 @@ defmodule TickettingWeb.TicketDetails do
           </div>
         <% end %>
       </div>
-    </div>
+    </section>
     """
   end
 end
