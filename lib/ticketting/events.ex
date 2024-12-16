@@ -69,10 +69,20 @@ defmodule Ticketting.Events do
   end
 
   def upcoming_events do
-    Event
-    |> where([e], e.date > ^DateTime.utc_now() and e.is_active == true)
-    |> order_by([e], asc: e.date)
-    |> Repo.all()
+    Repo.all(
+      from e in Event,
+        where: e.date > ^DateTime.utc_now() and e.is_active == true,
+        order_by: [asc: e.date],
+        limit: 4
+    )
+  end
+
+  def active_events do
+    Repo.all(
+      from e in Event,
+        where: e.is_active == true,
+        order_by: [asc: e.date]
+    )
   end
 
   def random_events(event_id) do

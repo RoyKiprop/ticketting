@@ -4,7 +4,7 @@ defmodule TickettingWeb.HomeComponents do
   def hero(assigns) do
     ~H"""
     <div class="w-full bg-[#7FC7FF] min-h-[100vh] flex items-center">
-      <div class="w-full max-w-[1500px] px-4 md:px-8 pb-10 mx-auto flex flex-col md:flex-row items-center">
+      <div class="w-full max-w-[1500px] px-4 md:px-8 pb-10 mx-auto flex flex-col md:flex-row items-center ">
         <div class="w-full md:w-1/2 order-2 md:order-1 space-y-6 text-center md:text-left">
           <h2 class="text-3xl md:text-5xl leading-tight font-bold  text-black">
             Discover Your Next Unforgettable Event Experience
@@ -31,7 +31,7 @@ defmodule TickettingWeb.HomeComponents do
           </div>
         </div>
 
-        <div class="w-full md:w-1/2 order-1 md:order-2 mb-10 md:mb-0">
+        <div class="w-full md:w-1/2 order-1 md:order-2 mb-10 md:mb-0  min-h-[100vh]">
           <.hero_images />
         </div>
       </div>
@@ -117,7 +117,7 @@ defmodule TickettingWeb.HomeComponents do
 
   defp hero_images(assigns) do
     ~H"""
-    <div class="grid grid-cols-2 grid-rows-3 gap-2  h-[500px] md:h-[950px]">
+    <div class="grid grid-cols-2 grid-rows-3 gap-2  h-[500px] md:h-[1000px] ">
       <%= for image <- images() do %>
         <img src={image} alt="Event Image" class="w-full h-full object-cover" />
       <% end %>
@@ -294,7 +294,7 @@ defmodule TickettingWeb.HomeComponents do
 
   def join_brands(assigns) do
     ~H"""
-    <section class="w-full px-4 py-16 bg-white">
+    <section class="w-full px-4 py-8 md:pb-16 bg-white">
       <div class="w-full max-w-[1500px] mx-auto text-center">
         <h2 class="text-3xl font-bold text-indigo-900 mb-8">
           Join these brands

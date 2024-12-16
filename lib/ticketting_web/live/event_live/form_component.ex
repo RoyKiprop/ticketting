@@ -21,6 +21,7 @@ defmodule TickettingWeb.EventLive.FormComponent do
       >
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:description]} type="textarea" rows="8" label="Description" />
+        <.input field={@form[:featured]} type="checkbox" label="Featured Event?" />
         <.input field={@form[:location]} type="text" label="Location" />
         <div class="space-y-2">
           <label class="block text-sm font-medium">Image</label>

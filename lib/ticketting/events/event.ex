@@ -12,6 +12,7 @@ defmodule Ticketting.Events.Event do
     field :end_time, :time
     field :is_active, :boolean, default: false
     field :slug, :string
+    field :featured, :boolean, default: false
 
     belongs_to :user, Ticketting.Accounts.User
     has_many :ticket_types, Ticketting.TicketTypes.TicketType

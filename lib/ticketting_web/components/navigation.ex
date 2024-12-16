@@ -21,7 +21,7 @@ defmodule TickettingWeb.Navigation do
 
           <div class="hidden md:flex items-center space-x-12">
             <.link navigate="#">
-              <button class="bg-black text-white font-medium px-6 py-2 rounded-md  hover:bg-gray-800 transition">
+              <button class="bg-[#333333] text-white font-medium px-6 py-2 rounded-full  hover:bg-bg-[#333333]/60 transition">
                 Buy Tickets
               </button>
             </.link>
@@ -38,7 +38,7 @@ defmodule TickettingWeb.Navigation do
   defp nav_links(current_user) do
     base_links = [
       %{name: "Home", link: "/"},
-      %{name: "Events", link: "/Ticketting"},
+      %{name: "Events", link: "/all-events"},
       %{name: "About Us", link: "/about"},
       %{name: "Contact Us", link: "/#contact-us"}
     ]
@@ -72,7 +72,6 @@ defmodule TickettingWeb.Navigation do
   def mobile_nav(assigns) do
     ~H"""
     <div class="md:hidden">
-      <!-- Hamburger Button -->
       <button
         type="button"
         phx-click={toggle_mobile_menu()}
@@ -138,13 +137,13 @@ defmodule TickettingWeb.Navigation do
     ~H"""
     <%= if @current_user do %>
       <.link navigate="/users/log_out" method="delete" class="inline-block">
-        <button class="px-4 py-2 bg-black hover:bg-gray-800 text-white font-medium rounded-md transition-colors duration-300 ease-in-out">
+        <button class="px-6 py-2 bg-[#333333] hover:bg-[#333333]/60 text-white font-medium rounded-full transition-colors duration-300 ease-in-out">
           Log Out
         </button>
       </.link>
     <% else %>
       <.link navigate="/users/log_in" class="inline-block">
-        <button class="px-8 py-3 bg-black hover:bg-black/80 text-white font-medium rounded-md transition-colors duration-300 ease-in-out">
+        <button class="px-6 py-3 bg-[#333333] hover:bg-[#333333]/60 text-white font-medium rounded-full transition-colors duration-300 ease-in-out">
           Log In
         </button>
       </.link>

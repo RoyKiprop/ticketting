@@ -44,7 +44,7 @@ defmodule TickettingWeb.AboutComponents do
 
   def sectionOne(assigns) do
     ~H"""
-    <section class="w-full max-w-[1500px] mx-auto px-6 py-16 md:py-20 lg:py-24 bg-white md:px-12 lg:px-24 xl:px-32">
+    <section class="w-full max-w-[1500px] mx-auto px-6 py-8 md:py-12 bg-white md:px-12 lg:px-24 xl:px-32">
       <div class="container mx-auto">
         <div class="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-12 lg:space-x-16">
           <div class="w-full md:w-1/2">
