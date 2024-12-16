@@ -117,6 +117,7 @@ defmodule TickettingWeb do
       import TickettingWeb.HomeComponents
       import TickettingWeb.TicketDetails
       import TickettingWeb.SidebarComponents
+      import TickettingWeb.AboutComponents
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS

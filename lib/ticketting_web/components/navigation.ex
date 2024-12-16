@@ -39,7 +39,7 @@ defmodule TickettingWeb.Navigation do
     base_links = [
       %{name: "Home", link: "/"},
       %{name: "Events", link: "/Ticketting"},
-      %{name: "About Us", link: "/upcoming-events"},
+      %{name: "About Us", link: "/about"},
       %{name: "Contact Us", link: "/#contact-us"}
     ]
 
