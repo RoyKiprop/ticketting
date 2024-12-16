@@ -157,7 +157,10 @@ defmodule TickettingWeb.TicketDetails do
                   <span class="font-semibold">Valid From:</span>
                   <%= Timex.format!(ticket.activate_on, "{Mfull} {D}, {YYYY}") %>
                 </p>
-                <p class="text-sm">Starts at 04:00 PM</p>
+                <p class="text-sm">
+                  <span class="font-semibold">To:</span>
+                  <%= Timex.format!(ticket.deactivate_on, "{Mfull} {D}, {YYYY}") %>
+                </p>
               </div>
 
               <div class="text-3xl font-bold text-[#7fc8ff] mb-6">
@@ -167,6 +170,7 @@ defmodule TickettingWeb.TicketDetails do
               <button
                 phx-click="buy-ticket"
                 phx-value-type={ticket.name}
+                phx-value-price={ticket.price}
                 class="
                   w-full
                   bg-[#7fc8ff]

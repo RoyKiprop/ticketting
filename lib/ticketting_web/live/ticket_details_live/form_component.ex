@@ -38,7 +38,7 @@ defmodule TickettingWeb.TicketDetailsLive.FormComponent do
           <.input field={@form[:phone]} type="text" label="Phone" />
           <.input field={@form[:email]} type="text" label="Email" />
           <.input field={@form[:quantity]} type="number" label="Number" />
-          <p>Total Price: 1000 KES</p>
+          <p>Total Price: <span class="font-bold"><%= @price %> KES</span></p>
           <div class="flex justify-center">
             <.button class="px-8 py-2" phx-disable-with="Saving...">Proceed To Pay</.button>
           </div>

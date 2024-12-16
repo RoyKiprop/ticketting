@@ -4,9 +4,9 @@ defmodule TickettingWeb.HomeComponents do
   def hero(assigns) do
     ~H"""
     <div class="w-full bg-[#7FC7FF] min-h-[100vh] flex items-center">
-      <div class="w-full max-w-[1500px] px-4 md:px-8 mx-auto flex flex-col md:flex-row items-center">
+      <div class="w-full max-w-[1500px] px-4 md:px-8 pb-10 mx-auto flex flex-col md:flex-row items-center">
         <div class="w-full md:w-1/2 order-2 md:order-1 space-y-6 text-center md:text-left">
-          <h2 class="text-3xl md:text-5xl leading-loose font-bold  text-black">
+          <h2 class="text-3xl md:text-5xl leading-tight font-bold  text-black">
             Discover Your Next Unforgettable Event Experience
           </h2>
 
@@ -43,7 +43,7 @@ defmodule TickettingWeb.HomeComponents do
     ~H"""
     <div class="container max-w-[1500px] mx-auto px-4 py-12 md:py-16">
       <div class="flex flex-row justify-between items-center mb-8">
-        <h2 class="text-xl md:text-3xl font-bold w-full">
+        <h2 class="text-lg md:text-3xl font-bold w-full">
           Upcoming Events
         </h2>
         <a
@@ -150,7 +150,7 @@ defmodule TickettingWeb.HomeComponents do
           </p>
           <button
             phx-click="contact_support"
-            class="bg-black text-white px-6 py-3 rounded-full
+            class="bg-black text-white px-6 py-3 mb-2 rounded-full
                    hover:bg-black/60 transition duration-300
                    transform hover:scale-105"
           >

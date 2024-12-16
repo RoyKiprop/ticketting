@@ -144,7 +144,7 @@ defmodule TickettingWeb.Navigation do
       </.link>
     <% else %>
       <.link navigate="/users/log_in" class="inline-block">
-        <button class="px-8 py-3 bg-[#0d1238] hover:bg-[#0d1238]/80 text-white font-medium rounded-md transition-colors duration-300 ease-in-out">
+        <button class="px-8 py-3 bg-black hover:bg-black/80 text-white font-medium rounded-md transition-colors duration-300 ease-in-out">
           Log In
         </button>
       </.link>
@@ -152,7 +152,6 @@ defmodule TickettingWeb.Navigation do
     """
   end
 
-  # Mobile Menu Toggle Functions
   defp toggle_mobile_menu() do
     JS.toggle(to: "#mobile-menu")
   end

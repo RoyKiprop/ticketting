@@ -24,7 +24,7 @@ defmodule TickettingWeb.TicketDetailsLive.Index do
      |> push_navigate(to: "/#{slug}/tickets")}
   end
 
-  def handle_event("buy-ticket", %{"type" => ticket_type}, socket) do
+  def handle_event("buy-ticket", %{"type" => ticket_type, "price" => ticket_price}, socket) do
     IO.inspect(ticket_type)
 
     {:noreply,
@@ -32,7 +32,8 @@ defmodule TickettingWeb.TicketDetailsLive.Index do
      |> assign(
        show_ticket_modal: true,
        ticket: %Tickets.Ticket{},
-       ticket_type: ticket_type
+       ticket_type: ticket_type,
+       ticket_price: ticket_price
      )}
   end
 
@@ -55,6 +56,7 @@ defmodule TickettingWeb.TicketDetailsLive.Index do
           ticket={@ticket}
           event={@event.name}
           ticket_type={@ticket_type}
+          price={@ticket_price}
         />
       <% end %>
     </div>
