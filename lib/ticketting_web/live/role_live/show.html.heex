@@ -1,15 +1,15 @@
-<.header>
-  Role <%= @role.id %>
-  <:subtitle>This is a role record from your database.</:subtitle>
-  <:actions>
-    <.link patch={~p"/roles/#{@role}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit role</.button>
-    </.link>
-  </:actions>
-</.header>
+<div class="my-3">
+  <.header>
+    <:actions>
+      <.link patch={~p"/roles/#{@role}/show/edit"} phx-click={JS.push_focus()}>
+        <.button>Edit role</.button>
+      </.link>
+    </:actions>
+  </.header>
+</div>
 
 <.list>
-  <:item title="Name"><%= @role.name %></:item>
+  <:item title="Role"><%= @role.slug %></:item>
 </.list>
 
 <.back navigate={~p"/roles"}>Back to roles</.back>

@@ -9,7 +9,7 @@ defmodule TickettingWeb.PermissionLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage permission records in your database.</:subtitle>
+        <:subtitle>Manage permission records in your database.</:subtitle>
       </.header>
 
       <.simple_form

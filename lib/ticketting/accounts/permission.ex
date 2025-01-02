@@ -5,6 +5,8 @@ defmodule Ticketting.Accounts.Permission do
   schema "permissions" do
     field :name, :string
     field :role_id, :id
+    field :status, :string, default: "active"
+    field :slug, :string
 
     timestamps(type: :utc_datetime)
   end
@@ -12,7 +14,18 @@ defmodule Ticketting.Accounts.Permission do
   @doc false
   def changeset(permission, attrs) do
     permission
-    |> cast(attrs, [:name, :role_id])
+    |> cast(attrs, [:name, :role_id, :slug, :status])
     |> validate_required([:name])
+    |> generate_slug()
+  end
+
+  defp generate_slug(changeset) do
+    case get_change(changeset, :name) do
+      nil ->
+        changeset
+
+      name ->
+        put_change(changeset, :slug, Slug.slugify(name))
+    end
   end
 end

@@ -1,0 +1,47 @@
+<div class="my-3">
+  <.header>
+    <:actions>
+      <.link patch={~p"/permissions/new"}>
+        <.button>New Permission</.button>
+      </.link>
+    </:actions>
+  </.header>
+</div>
+
+<.table id="permissions" rows={@streams.permissions}>
+  <:col :let={{_id, permission}} label="Name"><%= permission.slug %></:col>
+
+  <:action :let={{_id, permission}}>
+    <.link
+      patch={~p"/permissions/#{permission}/edit"}
+      class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4"
+    >
+      Edit
+    </.link>
+  </:action>
+  <:action :let={{id, permission}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: permission.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+      class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="permission-modal"
+  show
+  on_cancel={JS.patch(~p"/permissions")}
+>
+  <.live_component
+    module={TickettingWeb.PermissionLive.FormComponent}
+    id={@permission.id || :new}
+    title={@page_title}
+    action={@live_action}
+    permission={@permission}
+    patch={~p"/permissions"}
+  />
+</.modal>

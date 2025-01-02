@@ -1,11 +1,12 @@
-<.header>
-  Listing Tickets
-  <:actions>
-    <.link patch={~p"/tickets/new"}>
-      <.button>New Ticket</.button>
-    </.link>
-  </:actions>
-</.header>
+<div class="my-3">
+  <.header>
+    <:actions>
+      <.link patch={~p"/tickets/new"}>
+        <.button>New Ticket</.button>
+      </.link>
+    </:actions>
+  </.header>
+</div>
 
 <.table
   id="tickets"
@@ -33,7 +34,12 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="ticket-modal" show on_cancel={JS.patch(~p"/tickets")}>
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="ticket-modal"
+  show
+  on_cancel={JS.patch(~p"/tickets")}
+>
   <.live_component
     module={TickettingWeb.TicketLive.FormComponent}
     id={@ticket.id || :new}

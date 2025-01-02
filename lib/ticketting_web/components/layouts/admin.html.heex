@@ -1,12 +1,12 @@
-<header class="px-4 sm:px-6 lg:px-8"></header>
-<main>
-  <div class="mx-auto">
-    <.flash_group flash={@flash} />
-    <div class="w-[100%] flex justify-between ">
-      <.admin_sidebar />
-      <div class="w-[80%] m-5">
-        <%= @inner_content %>
-      </div>
-    </div>
+<div class="flex min-h-screen">
+  <.live_component module={TickettingWeb.Sidebar} id={:sidebar} />
+  <div class="flex-1 px-4 py-2 sm:ml-64 ">
+    <header>
+
+    </header>
+    <main>
+      <.flash_group flash={@flash} />
+      <%= @inner_content %>
+    </main>
   </div>
-</main>
+</div>

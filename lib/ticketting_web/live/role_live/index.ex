@@ -1,5 +1,5 @@
 defmodule TickettingWeb.RoleLive.Index do
-  use TickettingWeb, :super_admin_live_view
+  use TickettingWeb, :admin_live_view
 
   alias Ticketting.Accounts
   alias Ticketting.Accounts.Role

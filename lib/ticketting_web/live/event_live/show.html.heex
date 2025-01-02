@@ -1,12 +1,12 @@
-<.header>
-  Event <%= @event.id %>
-  <:subtitle>This is a event record from your database.</:subtitle>
-  <:actions>
-    <.link patch={~p"/events/#{@event}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit event</.button>
-    </.link>
-  </:actions>
-</.header>
+<div class="my-3">
+  <.header>
+    <:actions>
+      <.link patch={~p"/events/#{@event}/show/edit"} phx-click={JS.push_focus()}>
+        <.button>Edit event</.button>
+      </.link>
+    </:actions>
+  </.header>
+</div>
 
 <.list>
   <:item title="Name"><%= @event.name %></:item>

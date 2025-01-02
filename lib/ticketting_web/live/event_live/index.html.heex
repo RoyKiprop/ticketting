@@ -1,36 +1,43 @@
-<.header>
-  Listing Events
-  <:actions>
-    <.link patch={~p"/events/new"}>
-      <.button>New Event</.button>
-    </.link>
-  </:actions>
-</.header>
+<div class="my-3">
+  <.header>
+    <:actions>
+      <.link patch={~p"/events/new"}>
+        <.button>New Event</.button>
+      </.link>
+    </:actions>
+  </.header>
+</div>
 
 <.table
   id="events"
   rows={@streams.events}
   row_click={fn {_id, event} -> JS.navigate(~p"/events/#{event}") end}
 >
-  <:col :let={{_id, event}} label="Name"><%= event.name %></:col>
-  <:col :let={{_id, event}} label="Description"><%= event.description %></:col>
+  <:col :let={{_id, event}} label="Event"><%= event.name %></:col>
   <:col :let={{_id, event}} label="Location"><%= event.location %></:col>
-  <:col :let={{_id, event}} label="Image"><%= event.image %></:col>
-  <:col :let={{_id, event}} label="Start time"><%= event.start_time %></:col>
-  <:col :let={{_id, event}} label="End time"><%= event.end_time %></:col>
-  <:col :let={{_id, event}} label="Is active"><%= event.is_active %></:col>
-  <:col :let={{_id, event}} label="Slug"><%= event.slug %></:col>
+  <:col :let={{_id, event}} label="Start"><%= event.start_time %></:col>
+  <:col :let={{_id, event}} label="End"><%= event.end_time %></:col>
   <:col :let={{_id, event}} label="Date"><%= event.date %></:col>
   <:action :let={{_id, event}}>
-    <div class="sr-only">
-      <.link navigate={~p"/events/#{event}"}>Show</.link>
-    </div>
-    <.link patch={~p"/events/#{event}/edit"}>Edit</.link>
+    <.link
+      navigate={~p"/events/#{event}"}
+      class="bg-[#7fc8ff] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    >
+      View
+    </.link>
+
+    <.link
+      patch={~p"/events/#{event}/edit"}
+      class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4"
+    >
+      Edit
+    </.link>
   </:action>
   <:action :let={{id, event}}>
     <.link
       phx-click={JS.push("delete", value: %{id: event.id}) |> hide("##{id}")}
       data-confirm="Are you sure?"
+      class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
     >
       Delete
     </.link>

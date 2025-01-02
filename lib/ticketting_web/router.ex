@@ -68,17 +68,27 @@ defmodule TickettingWeb.Router do
       on_mount: [{TickettingWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
-
-      live "/permissions", PermissionLive.Index, :index
-      live "/permissions/new", PermissionLive.Index, :new
-      live "/permissions/:id/edit", PermissionLive.Index, :edit
-
-      live "/permissions/:id", PermissionLive.Show, :show
-      live "/permissions/:id/show/edit", PermissionLive.Show, :edit
     end
+  end
 
-    live_session :super_admin_routes,
-      on_mount: [{TickettingWeb.UserAuth, :ensure_super_admin}] do
+  scope "/", TickettingWeb do
+    pipe_through [:browser]
+
+    delete "/users/log_out", UserSessionController, :delete
+
+    live_session :current_user,
+      on_mount: [{TickettingWeb.UserAuth, :mount_current_user}] do
+      live "/users/confirm/:token", UserConfirmationLive, :edit
+      live "/users/confirm", UserConfirmationInstructionsLive, :new
+
+      live "/", HomeLive.Index, :index
+      live "/all-events", EventsPageLive.Index, :index
+      live "/about", AboutLive.Index, :index
+
+      live "/:slug/tickets", TicketDetailsLive.Index, :index
+      live "/:slug/tickets/buy", TicketDetailsLive.Buy
+
+      live "/dashboard", DashboardLive.Index, :index
       live "/roles", RoleLive.Index, :index
       live "/roles/new", RoleLive.Index, :new
       live "/roles/:id/edit", RoleLive.Index, :edit
@@ -86,13 +96,13 @@ defmodule TickettingWeb.Router do
       live "/roles/:id", RoleLive.Show, :show
       live "/roles/:id/show/edit", RoleLive.Show, :edit
 
-      live "/super_admin/users", UserLive.Index, :index
-      live "/super_admin/users/new", UserLive.Index, :new
-      live "/super_admin/users/:id/edit", UserLive.Index, :edit
-    end
+      live "/permissions", PermissionLive.Index, :index
+      live "/permissions/new", PermissionLive.Index, :new
+      live "/permissions/:id/edit", PermissionLive.Index, :edit
 
-    live_session :admin_routes,
-      on_mount: [{TickettingWeb.UserAuth, :ensure_admin}] do
+      live "/permissions/:id", PermissionLive.Show, :show
+      live "/permissions/:id/show/edit", PermissionLive.Show, :edit
+
       live "/events", EventLive.Index, :index
       live "/events/new", EventLive.Index, :new
       live "/events/:id/edit", EventLive.Index, :edit
@@ -117,42 +127,6 @@ defmodule TickettingWeb.Router do
       live "/organizers", AdminUserLive.Index, :index
       live "/organizers/new", AdminUserLive.Index, :new
       live "/oranizers/:id/edit", AdminUserLive.Index, :edit
-    end
-
-    live_session :event_organizer_routes,
-      on_mount: [{TickettingWeb.UserAuth, :event_organizer}] do
-      live "/events", EventLive.Index, :index
-      live "/events/new", EventLive.Index, :new
-      live "/events/:id/edit", EventLive.Index, :edit
-
-      live "/events/:id", EventLive.Show, :show
-      live "/events/:id/show/edit", EventLive.Show, :edit
-
-      live "/ticket_types", TicketTypeLive.Index, :index
-      live "/ticket_types/new", TicketTypeLive.Index, :new
-      live "/ticket_types/:id/edit", TicketTypeLive.Index, :edit
-
-      live "/ticket_types/:id", TicketTypeLive.Show, :show
-      live "/ticket_types/:id/show/edit", TicketTypeLive.Show, :edit
-    end
-  end
-
-  scope "/", TickettingWeb do
-    pipe_through [:browser]
-
-    delete "/users/log_out", UserSessionController, :delete
-
-    live_session :current_user,
-      on_mount: [{TickettingWeb.UserAuth, :mount_current_user}] do
-      live "/users/confirm/:token", UserConfirmationLive, :edit
-      live "/users/confirm", UserConfirmationInstructionsLive, :new
-
-      live "/", HomeLive.Index, :index
-      live "/all-events", EventsPageLive.Index, :index
-      live "/about", AboutLive.Index, :index
-
-      live "/:slug/tickets", TicketDetailsLive.Index, :index
-      live "/:slug/tickets/buy", TicketDetailsLive.Buy
     end
   end
 end

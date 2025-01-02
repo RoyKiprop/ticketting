@@ -10,7 +10,7 @@ defmodule TickettingWeb.AboutLive.Index do
     <.aboutHero />
     <.sectionOne />
     <.join_brands />
-    <.testimonials />
+    <.live_component module={TickettingWeb.Testimonials} id="testimonials" />
     """
   end
 end
