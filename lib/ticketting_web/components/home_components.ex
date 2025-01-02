@@ -3,36 +3,41 @@ defmodule TickettingWeb.HomeComponents do
 
   def hero(assigns) do
     ~H"""
-    <div class="w-full bg-[#7FC7FF] min-h-[100vh] flex items-center">
-      <div class="w-full max-w-[1500px] px-4 md:px-8 pb-10 mx-auto flex flex-col md:flex-row items-center ">
-        <div class="w-full md:w-1/2 order-2 md:order-1 space-y-6 text-center md:text-left">
-          <h2 class="text-3xl md:text-5xl leading-tight font-bold  text-black">
-            Discover Your Next Unforgettable Event Experience
-          </h2>
+    <div class="relative w-full min-h-[100vh] bg-gradient-to-br from-[#7FC7FF] to-[#6AB3EB]">
+      <div class="relative w-full max-w-[1500px] px-6 md:px-8 mx-auto min-h-screen">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div class="space-y-8 text-center md:text-left order-2 md:order-1">
+            <h1 class="text-4xl md:text-5xl  font-bold text-gray-900 leading-tight">
+              Discover Your Next
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-700">
+                Unforgettable Event
+              </span>
+            </h1>
 
-          <p class="text-[#525560] text-base md:text-lg max-w-xl mx-auto md:mx-0">
-            Welcome to your one-stop destination for event ticketing! Discover exciting events,
-            secure your tickets, and enjoy hassle-free payment options.
-          </p>
+            <p class="text-gray-700 text-base md:text-lg max-w-xl mx-auto md:mx-0 leading-relaxed">
+              Welcome to your one-stop destination for event ticketing! Discover exciting events,
+              secure your tickets, and enjoy hassle-free payment options.
+            </p>
 
-          <div class="flex justify-center md:justify-start space-x-4">
-            <a
-              href="#"
-              class="px-6 py-3 bg-[#333333] text-white rounded-full hover:bg-gray-800 transition-colors"
-            >
-              Buy Tickets
-            </a>
-            <a
-              href="#"
-              class="px-6 py-3 border-2 border-black text-[#333333] rounded-full hover:bg-gray-100 transition-colors"
-            >
-              Register An Event
-            </a>
+            <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-6">
+              <a
+                href="#"
+                class="w-full sm:w-auto px-8 py-4 bg-gray-900 text-white rounded-full font-medium hover:bg-gray-800 transform hover:-translate-y-0.5 transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                Buy Tickets
+              </a>
+              <a
+                href="#"
+                class="w-full sm:w-auto px-8 py-4 border-2 border-gray-900 text-gray-900 rounded-full font-medium hover:bg-gray-900 hover:text-white transform hover:-translate-y-0.5 transition-all duration-200"
+              >
+                Register An Event
+              </a>
+            </div>
           </div>
-        </div>
 
-        <div class="w-full md:w-1/2 order-1 md:order-2 mb-10 md:mb-0  min-h-[100vh]">
-          <.hero_images />
+          <div class="w-full order-1 md:order-2 mb-8 md:mb-0">
+            <.hero_images />
+          </div>
         </div>
       </div>
     </div>

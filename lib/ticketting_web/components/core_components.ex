@@ -106,30 +106,53 @@ defmodule TickettingWeb.CoreComponents do
   slot :inner_block, doc: "the optional inner block that renders the flash message"
 
   def flash(assigns) do
-    assigns = assign_new(assigns, :id, fn -> "flash-#{assigns.kind}" end)
+    assigns =
+      assign_new(assigns, :id, fn -> "flash-#{DateTime.utc_now() |> DateTime.to_unix()}" end)
+
+    assigns = assign_new(assigns, :rest, fn -> %{} end)
 
     ~H"""
     <div
-      :if={msg = render_slot(@inner_block) || Phoenix.Flash.get(@flash, @kind)}
+      :if={msg = Phoenix.Flash.get(@flash, @kind)}
       id={@id}
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       class={[
-        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-50 rounded-lg p-3 ring-1",
-        @kind == :info && "bg-emerald-50 text-emerald-800 ring-emerald-500 fill-cyan-900",
-        @kind == :error && "bg-rose-50 text-rose-900 shadow-md ring-rose-500 fill-rose-900"
+        "relative pointer-events-auto rounded-lg p-4 shadow-md transition-all duration-500",
+        "opacity-100 hover:opacity-95 hover:translate-x-1",
+        @kind == :info && "bg-emerald-50 text-emerald-800 shadow-emerald-100/40",
+        @kind == :error && "bg-rose-50 text-rose-900 shadow-rose-100/40"
       ]}
       {@rest}
     >
-      <p :if={@title} class="flex items-center gap-1.5 text-sm font-semibold leading-6">
-        <.icon :if={@kind == :info} name="hero-information-circle-mini" class="h-4 w-4" />
-        <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" class="h-4 w-4" />
-        <%= @title %>
-      </p>
-      <p class="mt-2 text-sm leading-5"><%= msg %></p>
-      <button type="button" class="group absolute top-1 right-1 p-2" aria-label={gettext("close")}>
-        <.icon name="hero-x-mark-solid" class="h-5 w-5 opacity-40 group-hover:opacity-70" />
-      </button>
+      <div class="flex items-center gap-3">
+        <.icon :if={@kind == :info} name="hero-check-circle-mini" class="h-5 w-5 text-emerald-600" />
+        <.icon
+          :if={@kind == :error}
+          name="hero-exclamation-circle-mini"
+          class="h-5 w-5 text-rose-600"
+        />
+
+        <div class="flex-1">
+          <p class="font-semibold mb-1"><%= @title %></p>
+          <p class="text-sm"><%= msg %></p>
+        </div>
+
+        <button type="button" class="absolute top-2 right-1 p-2" aria-label={gettext("close")}>
+          <.icon name="hero-x-mark-mini" class="h-5 w-5 opacity-40 hover:opacity-70" />
+        </button>
+      </div>
+
+      <div
+        :if={@kind == :info}
+        class="absolute bottom-0 left-0 h-1 bg-emerald-600/30 rounded-b-lg transition-all duration-1000"
+        style="width: 100%"
+      />
+      <div
+        :if={@kind == :error}
+        class="absolute bottom-0 left-0 h-1 bg-rose-600/30 rounded-b-lg transition-all duration-1000"
+        style="width: 100%"
+      />
     </div>
     """
   end
@@ -146,7 +169,10 @@ defmodule TickettingWeb.CoreComponents do
 
   def flash_group(assigns) do
     ~H"""
-    <div id={@id}>
+    <div
+      class="fixed top-4 right-4 z-[9999] flex flex-col gap-3 w-full max-w-sm animate-fade-in"
+      id={@id}
+    >
       <.flash kind={:info} title={gettext("Success!")} flash={@flash} />
       <.flash kind={:error} title={gettext("Error!")} flash={@flash} />
       <.flash

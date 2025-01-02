@@ -4,31 +4,42 @@ defmodule TickettingWeb.Navigation do
 
   def navigation(assigns) do
     ~H"""
-    <div class="bg-white ">
-      <nav class="fixed top-0 left-0 right-0 z-50 bg-white ">
-        <div class="flex items-center justify-between max-w-[1500px] mx-auto py-5 px-4 ">
-          <div>
-            <.link navigate="/">
-              <img src="" alt="Logo" class="h-8 w-auto" />
-            </.link>
-          </div>
+    <div class="relative">
+      <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm">
+        <div class="max-w-[1500px] mx-auto px-6 md:px-8">
+          <div class="flex items-center justify-between h-20">
+            <div class="flex-shrink-0">
+              <.link navigate="/" class="flex items-center">
+                <img src="" alt="Logo" class="h-10 w-auto" />
+              </.link>
+            </div>
 
-          <div class="hidden md:flex items-center space-x-8">
-            <%= for link <- nav_links(@current_user) do %>
-              <.nav_link name={link.name} link={link.link} />
-            <% end %>
-          </div>
+            <div class="hidden md:flex items-center space-x-8">
+              <%= for link <- nav_links(@current_user) do %>
+                <.nav_link
+                  name={link.name}
+                  link={link.link}
+                  class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200"
+                />
+              <% end %>
+            </div>
 
-          <div class="hidden md:flex items-center space-x-12">
-            <.link navigate="#">
-              <button class="bg-[#333333] text-white font-medium px-6 py-2 rounded-full  hover:bg-bg-[#333333]/60 transition">
-                Buy Tickets
-              </button>
-            </.link>
-            <.login_signUp current_user={@current_user} />
-          </div>
+            <div class="hidden md:flex items-center space-x-6">
+              <.login_signUp
+                current_user={@current_user}
+                login_class="px-6 py-2 text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200"
+                signup_class="px-6 py-2 bg-gray-900 text-white rounded-full hover:bg-gray-800 transform hover:-translate-y-0.5 transition-all duration-200 shadow-sm hover:shadow-md"
+              />
+            </div>
 
-          <.mobile_nav current_user={@current_user} />
+            <div class="md:hidden">
+              <.mobile_nav
+                current_user={@current_user}
+                button_class="p-2 rounded-md text-gray-700 hover:text-gray-900 transition-colors duration-200"
+                menu_class="absolute top-full left-0 right-0 bg-white border-t border-gray-100 shadow-lg"
+              />
+            </div>
+          </div>
         </div>
       </nav>
     </div>
@@ -45,12 +56,7 @@ defmodule TickettingWeb.Navigation do
 
     admin_link =
       if current_user && current_user.active do
-        case current_user.role_id do
-          1 -> [%{name: "Admin", link: "/super_admin/dashboard"}]
-          2 -> [%{name: "Admin", link: "/admin/dashboard"}]
-          3 -> [%{name: "Admin", link: "/admin/dashboard"}]
-          _ -> []
-        end
+        [%{name: "Admin", link: "/dashboard"}]
       else
         []
       end
@@ -137,13 +143,13 @@ defmodule TickettingWeb.Navigation do
     ~H"""
     <%= if @current_user do %>
       <.link navigate="/users/log_out" method="delete" class="inline-block">
-        <button class="px-6 py-2 bg-[#333333] hover:bg-[#333333]/60 text-white font-medium rounded-full transition-colors duration-300 ease-in-out">
+        <button class="px-6 py-2 bg-[#333333] hover:bg-[#333333]/60 text-white font-medium rounded-md transition-colors duration-300 ease-in-out">
           Log Out
         </button>
       </.link>
     <% else %>
       <.link navigate="/users/log_in" class="inline-block">
-        <button class="px-6 py-3 bg-[#333333] hover:bg-[#333333]/60 text-white font-medium rounded-full transition-colors duration-300 ease-in-out">
+        <button class="px-6 py-3 bg-[#333333] hover:bg-[#333333]/60 text-white font-medium rounded-md transition-colors duration-300 ease-in-out">
           Log In
         </button>
       </.link>
