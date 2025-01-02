@@ -42,75 +42,137 @@ defmodule TickettingWeb.HomeComponents do
   def events(assigns) do
     ~H"""
     <div class="container max-w-[1500px] mx-auto px-4 py-12 md:py-16">
-      <div class="flex flex-row justify-between items-center mb-8">
-        <h2 class="text-lg md:text-3xl font-bold w-full">
-          Upcoming Events
-        </h2>
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0 mb-12">
+        <div class="space-y-2">
+          <h2 class="text-2xl md:text-4xl font-bold text-gray-900 tracking-tight">
+            Upcoming Events
+          </h2>
+          <p class="text-gray-500 text-sm md:text-base">
+            Discover and book your next amazing experience
+          </p>
+        </div>
         <a
           href="#"
-          class="inline-block text-blue-500 flex items-center justify-end hover:text-blue-700 w-full"
+          class="group inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-200"
         >
-          View All <i class="bi bi-arrow-right ml-2"></i>
+          View All Events
+          <svg
+            class="ml-2 w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-200"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
         </a>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <%= for event <- @upcoming_events do %>
-          <div class="bg-white shadow-lg  overflow-hidden">
-            <div class="relative">
-              <img src={event.image} alt={event.name} class="w-full h-72 object-cover" />
-            </div>
+      <%= if Enum.empty?(@upcoming_events) do %>
+        <div class="flex flex-col items-center justify-center py-16 px-4 bg-gray-50 rounded-xl">
+          <div class="w-24 h-24 mb-6 text-gray-300">
+            <svg
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+          </div>
+          <h3 class="text-xl md:text-2xl font-semibold text-gray-900 mb-2 text-center">
+            No Upcoming Events
+          </h3>
+          <p class="text-gray-500 text-center max-w-md mb-8">
+            We're working on bringing you exciting new events. Check back soon or sign up for notifications.
+          </p>
+          <button class="inline-flex items-center px-6 py-3 bg-[#7fc8ff] hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
+            Get Notified
+            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              />
+            </svg>
+          </button>
+        </div>
+      <% else %>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <%= for event <- @upcoming_events do %>
+            <div class="group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+              <div class="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src={event.image}
+                  alt={event.name}
+                  class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                </div>
+              </div>
 
-            <div class="p-5">
-              <h3 class="text-xl font-bold text-gray-800 mb-2 truncate">
-                <%= event.name %>
-              </h3>
+              <div class="p-6">
+                <div class="flex items-center gap-2 mb-4">
+                  <span class="px-3 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+                    <%= Timex.format!(event.date, "{Mshort} {D}") %>
+                  </span>
+                  <span class="text-sm text-gray-500">
+                    <%= Timex.format!(event.start_time, "{h12}:{0m} {am}") %>
+                  </span>
+                </div>
 
-              <div class="text-sm text-gray-600 space-y-1">
-                <p>
-                  <%= Timex.format!(event.start_time, "{h12}:{0m} {am}") %> - <%= Timex.format!(
-                    event.end_time,
-                    "{h12}:{0m} {am}"
-                  ) %>
-                </p>
-                <p><%= Timex.format!(event.date, "{Mshort} {D}") %></p>
+                <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-1 group-hover:text-blue-600 transition-colors duration-200">
+                  <%= event.name %>
+                </h3>
 
-                <div class="flex items-center mt-2">
+                <div class="flex items-center text-gray-500 text-sm mb-4">
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 mr-2 text-gray-500"
+                    class="w-4 h-4 mr-2 flex-shrink-0"
                     fill="none"
-                    viewBox="0 0 24 24"
                     stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
                     <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
                       d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
                     />
                     <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
                       d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                     />
                   </svg>
                   <p class="truncate"><%= event.location %></p>
                 </div>
-              </div>
 
-              <button
-                phx-click="view-event"
-                phx-value-slug={event.slug}
-                class="w-full mt-4 bg-[#7fc8ff] text-white py-2 rounded-lg hover:bg-[#7fc8ff]/60 transition duration-300 ease-in-out"
-              >
-                Get Tickets
-              </button>
+                <button
+                  phx-click="view-event"
+                  phx-value-slug={event.slug}
+                  class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
+                >
+                  Get Tickets
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 7l5 5m0 0l-5 5m5-5H6"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
-          </div>
-        <% end %>
-      </div>
+          <% end %>
+        </div>
+      <% end %>
     </div>
     """
   end
