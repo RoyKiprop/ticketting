@@ -125,9 +125,9 @@ defmodule TickettingWeb.Router do
       live "/ticket_types/:id", TicketTypeLive.Show, :show
       live "/ticket_types/:id/show/edit", TicketTypeLive.Show, :edit
 
-      live "/organizers", AdminUserLive.Index, :index
-      live "/organizers/new", AdminUserLive.Index, :new
-      live "/oranizers/:id/edit", AdminUserLive.Index, :edit
+      live "/users", UserLive.Index, :index
+      live "/users/new", UserLive.Index, :new
+      live "/users/:id/edit", UserLive.Index, :edit
     end
   end
 end

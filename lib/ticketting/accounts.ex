@@ -63,6 +63,12 @@ defmodule Ticketting.Accounts do
     |> Repo.preload(:role)
   end
 
+  def create_user(attrs \\ %{}) do
+    %User{}
+    |> User.create_changeset(attrs)
+    |> Repo.insert()
+  end
+
   ## User registration
 
   @doc """

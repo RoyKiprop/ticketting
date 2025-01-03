@@ -77,6 +77,15 @@ defmodule TickettingWeb.Sidebar do
 
           <li>
             <.link
+              navigate="/users"
+              class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
+            >
+              <Heroicons.icon name="users" type="outline" class="h-4 w-4" />
+              <span class="flex-1 ms-3 whitespace-nowrap">Users</span>
+            </.link>
+          </li>
+          <li>
+            <.link
               navigate="/roles"
               class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
             >
