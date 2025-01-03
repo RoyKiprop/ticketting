@@ -1,5 +1,5 @@
 defmodule TickettingWeb.UserForgotPasswordLive do
-  use TickettingWeb, :live_view
+  use TickettingWeb, :login_live_view
 
   alias Ticketting.Accounts
 

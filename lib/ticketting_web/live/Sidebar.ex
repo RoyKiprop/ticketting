@@ -18,6 +18,15 @@ defmodule TickettingWeb.Sidebar do
         <ul class="space-y-2 font-medium">
           <li>
             <.link
+              navigate={~p"/"}
+              class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
+            >
+              <Heroicons.icon name="home" type="outline" class="h-4 w-4" />
+              <span class="ms-3">Home</span>
+            </.link>
+          </li>
+          <li>
+            <.link
               navigate={~p"/dashboard"}
               class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
             >

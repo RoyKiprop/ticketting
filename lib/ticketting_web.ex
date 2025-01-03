@@ -58,10 +58,10 @@ defmodule TickettingWeb do
     end
   end
 
-  def super_admin_live_view do
+  def login_live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {TickettingWeb.Layouts, :super_admin}
+        layout: {TickettingWeb.Layouts, :login}
 
       unquote(html_helpers())
     end
@@ -71,15 +71,6 @@ defmodule TickettingWeb do
     quote do
       use Phoenix.LiveView,
         layout: {TickettingWeb.Layouts, :admin}
-
-      unquote(html_helpers())
-    end
-  end
-
-  def organizer_live_view do
-    quote do
-      use Phoenix.LiveView,
-        layout: {TickettingWeb.Layouts, :organizer}
 
       unquote(html_helpers())
     end

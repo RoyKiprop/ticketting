@@ -1,18 +1,14 @@
 defmodule TickettingWeb.UserLoginLive do
-  use TickettingWeb, :live_view
+  use TickettingWeb, :login_live_view
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm">
-      <.header class="text-center">
-        Log in to account
-        <:subtitle>
-          Don't have an account?
-          <.link navigate={~p"/users/register"} class="font-semibold text-brand hover:underline">
-            Sign up
-          </.link>
-          for an account now.
-        </:subtitle>
+    <div class="mx-auto max-w-xl">
+      <.header class="text-center space-y-2">
+        <h2 class="text-2xl md:text-5xl font-extrabold text-black drop-shadow-sm mb-4">
+          Welcome To Roy Events
+        </h2>
+        <p class="text-gray-600">Log in to account</p>
       </.header>
 
       <.simple_form for={@form} id="login_form" action={~p"/users/log_in"} phx-update="ignore">
