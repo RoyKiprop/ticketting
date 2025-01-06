@@ -613,4 +613,56 @@ defmodule Ticketting.AccountsTest do
       assert %Ecto.Changeset{} = Accounts.change_permission(permission)
     end
   end
+
+  describe "role_permissions" do
+    alias Ticketting.Accounts.RolePermission
+
+    import Ticketting.AccountsFixtures
+
+    @invalid_attrs %{}
+
+    test "list_role_permissions/0 returns all role_permissions" do
+      role_permission = role_permission_fixture()
+      assert Accounts.list_role_permissions() == [role_permission]
+    end
+
+    test "get_role_permission!/1 returns the role_permission with given id" do
+      role_permission = role_permission_fixture()
+      assert Accounts.get_role_permission!(role_permission.id) == role_permission
+    end
+
+    test "create_role_permission/1 with valid data creates a role_permission" do
+      valid_attrs = %{}
+
+      assert {:ok, %RolePermission{} = role_permission} = Accounts.create_role_permission(valid_attrs)
+    end
+
+    test "create_role_permission/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_role_permission(@invalid_attrs)
+    end
+
+    test "update_role_permission/2 with valid data updates the role_permission" do
+      role_permission = role_permission_fixture()
+      update_attrs = %{}
+
+      assert {:ok, %RolePermission{} = role_permission} = Accounts.update_role_permission(role_permission, update_attrs)
+    end
+
+    test "update_role_permission/2 with invalid data returns error changeset" do
+      role_permission = role_permission_fixture()
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_role_permission(role_permission, @invalid_attrs)
+      assert role_permission == Accounts.get_role_permission!(role_permission.id)
+    end
+
+    test "delete_role_permission/1 deletes the role_permission" do
+      role_permission = role_permission_fixture()
+      assert {:ok, %RolePermission{}} = Accounts.delete_role_permission(role_permission)
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_role_permission!(role_permission.id) end
+    end
+
+    test "change_role_permission/1 returns a role_permission changeset" do
+      role_permission = role_permission_fixture()
+      assert %Ecto.Changeset{} = Accounts.change_role_permission(role_permission)
+    end
+  end
 end

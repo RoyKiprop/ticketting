@@ -56,4 +56,18 @@ defmodule Ticketting.AccountsFixtures do
 
     permission
   end
+
+  @doc """
+  Generate a role_permission.
+  """
+  def role_permission_fixture(attrs \\ %{}) do
+    {:ok, role_permission} =
+      attrs
+      |> Enum.into(%{
+
+      })
+      |> Ticketting.Accounts.create_role_permission()
+
+    role_permission
+  end
 end

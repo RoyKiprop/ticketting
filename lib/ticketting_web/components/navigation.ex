@@ -5,7 +5,7 @@ defmodule TickettingWeb.Navigation do
   def navigation(assigns) do
     ~H"""
     <div class="relative">
-      <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm">
+      <nav class="fixed top-0 left-0 right-0 z-50 bg-white  shadow-sm">
         <div class="max-w-[1500px] mx-auto px-6 md:px-8">
           <div class="flex items-center justify-between h-20">
             <div class="flex-shrink-0">

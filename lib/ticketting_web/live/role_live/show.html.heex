@@ -1,26 +1,63 @@
-<div class="my-3">
-  <.header>
-    <:actions>
-      <.link patch={~p"/roles/#{@role}/show/edit"} phx-click={JS.push_focus()}>
-        <.button>Edit role</.button>
-      </.link>
-    </:actions>
-  </.header>
+<div class="p-6 max-w-4xl mx-auto bg-white shadow-md rounded-lg">
+  <div class="text-2xl font-bold mb-4">
+    Role: <span class="text-gray-700"><%= @role.name %></span>
+  </div>
+
+  <div class="mb-6">
+    <.link patch={"/roles/#{@role.id}/add_permission"}>
+      <button class="bg-[#7fc8ff] hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded">
+        Add Permissions
+      </button>
+    </.link>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200 shadow rounded-lg">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+            Permission Slug
+          </th>
+
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <%= for permission <- @current_role_permissions do %>
+          <tr>
+            <td class="px-6 py-4 text-sm text-gray-900"><%= permission.permission.slug %></td>
+
+            <td class="px-6 py-4 text-sm">
+              <button
+                phx-click="remove_permission"
+                phx-value-permission_id={permission.permission_id}
+                class="text-red-500 hover:text-red-600 font-medium"
+              >
+                Remove
+              </button>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
-
-<.list>
-  <:item title="Role"><%= @role.slug %></:item>
-</.list>
-
-<.back navigate={~p"/roles"}>Back to roles</.back>
-
-<.modal :if={@live_action == :edit} id="role-modal" show on_cancel={JS.patch(~p"/roles/#{@role}")}>
+<.modal
+  :if={@live_action == :add_permission}
+  id="permission-modal"
+  show
+  on_cancel={JS.patch(~p"/roles/#{@role.id}")}
+>
   <.live_component
-    module={TickettingWeb.RoleLive.FormComponent}
-    id={@role.id}
-    title={@page_title}
-    action={@live_action}
+    module={TickettingWeb.AddRolePermissions}
+    id={:new}
+    permissions={@permissions}
     role={@role}
-    patch={~p"/roles/#{@role}"}
+    action={@live_action}
+    role_permissions={@role_permissions}
+    title="Add Role Permissions"
+    patch={~p"/roles/#{@role.id}"}
   />
 </.modal>

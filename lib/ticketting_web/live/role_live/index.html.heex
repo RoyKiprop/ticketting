@@ -11,9 +11,12 @@
 <.table id="roles" rows={@streams.roles}>
   <:col :let={{_id, role}} label="Role"><%= role.slug %></:col>
   <:action :let={{_id, role}}>
+    <.link navigate={~p"/roles/#{role}"} class="text-[#7fc8ff] hover:text-blue-700 font-normal ">
+      View
+    </.link>
     <.link
       patch={~p"/roles/#{role}/edit"}
-      class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4"
+      class="text-green-500 hover:text-green-700  font-normal ml-4"
     >
       Edit
     </.link>
@@ -22,7 +25,7 @@
     <.link
       phx-click={JS.push("delete", value: %{id: role.id}) |> hide("##{id}")}
       data-confirm="Are you sure?"
-      class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+      class="text-red-500 hover:text-red-700 font-normal"
     >
       Delete
     </.link>

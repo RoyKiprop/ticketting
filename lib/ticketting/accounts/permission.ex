@@ -7,6 +7,7 @@ defmodule Ticketting.Accounts.Permission do
     field :role_id, :id
     field :status, :string, default: "active"
     field :slug, :string
+    many_to_many :permissions, Ticketting.Accounts.Permission, join_through: "role_permissions"
 
     timestamps(type: :utc_datetime)
   end

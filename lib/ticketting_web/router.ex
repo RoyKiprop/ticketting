@@ -95,7 +95,7 @@ defmodule TickettingWeb.Router do
       live "/roles/:id/edit", RoleLive.Index, :edit
 
       live "/roles/:id", RoleLive.Show, :show
-      live "/roles/:id/show/edit", RoleLive.Show, :edit
+      live "/roles/:id/add_permission", RoleLive.Show, :add_permission
 
       live "/permissions", PermissionLive.Index, :index
       live "/permissions/new", PermissionLive.Index, :new
