@@ -11,6 +11,7 @@ defmodule TickettingWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
+    plug :set_user_permissions
   end
 
   pipeline :api do
@@ -78,7 +79,10 @@ defmodule TickettingWeb.Router do
     get "/users/log_out", UserSessionController, :delete
 
     live_session :current_user,
-      on_mount: [{TickettingWeb.UserAuth, :mount_current_user}] do
+      on_mount: [
+        {TickettingWeb.UserAuth, :mount_current_user},
+        {TickettingWeb.UserAuth, :set_user_permissions}
+      ] do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
 

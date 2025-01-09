@@ -4,19 +4,8 @@ defmodule TickettingWeb.RoleLive.Show do
   alias Ticketting.Accounts
 
   @impl true
-  def mount(%{"id" => id}, _session, socket) do
-    role = Accounts.get_role!(String.to_integer(id))
-    permissions = Accounts.list_permissions()
-    current_role_permissions = Accounts.get_all_role_permissions(role.id)
-    role_permissions = Accounts.get_role_permissions_by_role_id(role.id)
-
-    {:ok,
-     socket
-     |> assign(
-       permissions: permissions,
-       current_role_permissions: current_role_permissions,
-       role_permissions: role_permissions
-     )}
+  def mount(_params, _session, socket) do
+    {:ok, socket}
   end
 
   @impl true
@@ -46,6 +35,10 @@ defmodule TickettingWeb.RoleLive.Show do
         {:ok, _} ->
           socket
           |> put_flash(:info, "Permission removed successfully.")
+          |> assign(
+            :current_role_permissions,
+            Accounts.get_all_role_permissions(socket.assigns.role.id)
+          )
 
         {:error, _} ->
           socket |> put_flash(:error, "Failed to remove permission.")
@@ -55,6 +48,5 @@ defmodule TickettingWeb.RoleLive.Show do
   end
 
   defp page_title(:show), do: "Show Role"
-  defp page_title(:edit), do: "Edit Role"
   defp page_title(:add_permission), do: "Add Role Permission"
 end

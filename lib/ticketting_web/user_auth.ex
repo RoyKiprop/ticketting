@@ -3,8 +3,11 @@ defmodule TickettingWeb.UserAuth do
 
   import Plug.Conn
   import Phoenix.Controller
-
+  import Ecto.Query
+  alias Ticketting.Repo
+  alias Ticketting.Accounts.Permission
   alias Ticketting.Accounts
+  alias Ticketting.Accounts.{RolePermission, Permission}
 
   # Make the remember me cookie valid for 60 days.
   # If you want bump or reduce this value, also change
@@ -96,6 +99,25 @@ defmodule TickettingWeb.UserAuth do
     assign(conn, :current_user, user)
   end
 
+  def set_user_permissions(conn, _options) do
+    if conn.assigns[:current_user] do
+      permission = get_permissions(conn.assigns.current_user.role_id)
+      assign(conn, :user_permissions, permission)
+    else
+      assign(conn, :user_permission, [])
+    end
+  end
+
+  def get_permissions(role_id) do
+    from(rp in RolePermission,
+      join: p in Permission,
+      on: rp.permission_id == p.id,
+      where: rp.role_id == ^role_id,
+      select: p.slug
+    )
+    |> Repo.all()
+  end
+
   defp ensure_user_token(conn) do
     if token = get_session(conn, :user_token) do
       {token, conn}
@@ -147,6 +169,10 @@ defmodule TickettingWeb.UserAuth do
   """
   def on_mount(:mount_current_user, _params, session, socket) do
     {:cont, mount_current_user(socket, session)}
+  end
+
+  def on_mount(:set_user_permissions, _params, _session, socket) do
+    {:cont, set_user_permissions(socket)}
   end
 
   def on_mount(:ensure_authenticated, _params, session, socket) do
@@ -278,6 +304,17 @@ defmodule TickettingWeb.UserAuth do
         Accounts.get_user_by_session_token(user_token)
       end
     end)
+  end
+
+  def set_user_permissions(socket) do
+    permissions =
+      if socket.assigns[:current_user] && Map.has_key?(socket.assigns[:current_user], :role_id) do
+        get_permissions(socket.assigns[:current_user].role_id)
+      else
+        []
+      end
+
+    Phoenix.Component.assign_new(socket, :user_permissions, fn -> permissions end)
   end
 
   @doc """

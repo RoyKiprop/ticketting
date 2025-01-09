@@ -663,7 +663,7 @@ defmodule Ticketting.Accounts do
   end
 
   def get_all_role_permissions(role_id) do
-    Repo.all(from(rp in RolePermission, where: rp.role_id == ^role_id, select: rp))
+    Repo.all(from rp in RolePermission, where: rp.role_id == ^role_id, select: rp)
     |> Repo.preload(:permission)
   end
 
@@ -673,7 +673,6 @@ defmodule Ticketting.Accounts do
 
   def delete_role_permission(role_id, permission_id) do
     role_permission = Repo.get_by(RolePermission, role_id: role_id, permission_id: permission_id)
-
     Repo.delete(role_permission)
   end
 end

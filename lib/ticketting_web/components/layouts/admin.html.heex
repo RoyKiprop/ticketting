@@ -1,9 +1,11 @@
 <div class="flex min-h-screen">
-  <.live_component module={TickettingWeb.Sidebar} id={:sidebar} />
+  <.live_component
+    module={TickettingWeb.Sidebar}
+    id={:sidebar}
+    user_permissions={@user_permissions}
+  />
   <div class="flex-1 px-4 py-2 sm:ml-64 ">
-    <header>
-
-    </header>
+    <header></header>
     <main>
       <.flash_group flash={@flash} />
       <%= @inner_content %>

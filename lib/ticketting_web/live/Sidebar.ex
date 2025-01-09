@@ -25,84 +25,96 @@ defmodule TickettingWeb.Sidebar do
               <span class="ms-3">Home</span>
             </.link>
           </li>
-          <li>
-            <.link
-              navigate={~p"/dashboard"}
-              class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
-            >
-              <Heroicons.icon name="chart-bar-square" type="outline" class="h-4 w-4" />
-              <span class="ms-3">Dashboard</span>
-            </.link>
-          </li>
+          <%= if "view-dashboard" in @user_permissions do %>
+            <li>
+              <.link
+                navigate={~p"/dashboard"}
+                class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
+              >
+                <Heroicons.icon name="chart-bar-square" type="outline" class="h-4 w-4" />
+                <span class="ms-3">Dashboard</span>
+              </.link>
+            </li>
+          <% end %>
 
-          <li>
-            <.link
-              navigate={~p"/events"}
-              class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
-            >
-              <i class="bi bi-calendar-event"></i>
-              <span class="flex-1 ms-3 whitespace-nowrap">Events</span>
-            </.link>
-          </li>
+          <%= if "view-events" in @user_permissions do %>
+            <li>
+              <.link
+                navigate={~p"/events"}
+                class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
+              >
+                <i class="bi bi-calendar-event"></i>
+                <span class="flex-1 ms-3 whitespace-nowrap">Events</span>
+              </.link>
+            </li>
+          <% end %>
+          <%= if "view-payments" in @user_permissions do %>
+            <li>
+              <.link
+                navigate="/payments"
+                class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
+              >
+                <Heroicons.icon name="currency-dollar" type="outline" class="h-4 w-4" />
+                <span class="flex-1 ms-3 whitespace-nowrap">Payments</span>
+              </.link>
+            </li>
+          <% end %>
 
-          <li>
-            <.link
-              navigate="/businesses"
-              class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
-            >
-              <Heroicons.icon name="currency-dollar" type="outline" class="h-4 w-4" />
-              <span class="flex-1 ms-3 whitespace-nowrap">Payments</span>
-            </.link>
-          </li>
-
-          <li>
-            <.link
-              navigate="/tickets"
-              class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
-            >
-              <i class="bi bi-ticket-detailed"></i>
-              <span class="flex-1 ms-3 whitespace-nowrap">Tickets</span>
-            </.link>
-          </li>
-
-          <li>
-            <.link
-              navigate="/ticket_types"
-              class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
-            >
-              <Heroicons.icon name="rectangle-stack" type="outline" class="h-4 w-4" />
-              <span class="flex-1 ms-3 whitespace-nowrap">Ticket Types</span>
-            </.link>
-          </li>
-
-          <li>
-            <.link
-              navigate="/users"
-              class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
-            >
-              <Heroicons.icon name="users" type="outline" class="h-4 w-4" />
-              <span class="flex-1 ms-3 whitespace-nowrap">Users</span>
-            </.link>
-          </li>
-          <li>
-            <.link
-              navigate="/roles"
-              class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
-            >
-              <Heroicons.icon name="user-plus" type="outline" class="h-4 w-4" />
-              <span class="flex-1 ms-3 whitespace-nowrap">Roles</span>
-            </.link>
-          </li>
-
-          <li>
-            <.link
-              navigate="/permissions"
-              class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
-            >
-              <Heroicons.icon name="key" type="outline" class="h-4 w-4" />
-              <span class="flex-1 ms-3 whitespace-nowrap">Permissions</span>
-            </.link>
-          </li>
+          <%= if "view-tickets" in @user_permissions do %>
+            <li>
+              <.link
+                navigate="/tickets"
+                class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
+              >
+                <i class="bi bi-ticket-detailed"></i>
+                <span class="flex-1 ms-3 whitespace-nowrap">Tickets</span>
+              </.link>
+            </li>
+          <% end %>
+          <%= if "view-ticket-types" in @user_permissions do %>
+            <li>
+              <.link
+                navigate="/ticket_types"
+                class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
+              >
+                <Heroicons.icon name="rectangle-stack" type="outline" class="h-4 w-4" />
+                <span class="flex-1 ms-3 whitespace-nowrap">Ticket Types</span>
+              </.link>
+            </li>
+          <% end %>
+          <%= if "view-users" in @user_permissions do %>
+            <li>
+              <.link
+                navigate="/users"
+                class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
+              >
+                <Heroicons.icon name="users" type="outline" class="h-4 w-4" />
+                <span class="flex-1 ms-3 whitespace-nowrap">Users</span>
+              </.link>
+            </li>
+          <% end %>
+          <%= if "view-roles" in @user_permissions do %>
+            <li>
+              <.link
+                navigate="/roles"
+                class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
+              >
+                <Heroicons.icon name="user-plus" type="outline" class="h-4 w-4" />
+                <span class="flex-1 ms-3 whitespace-nowrap">Roles</span>
+              </.link>
+            </li>
+          <% end %>
+          <%= if "view-permissions" in @user_permissions do %>
+            <li>
+              <.link
+                navigate="/permissions"
+                class="flex items-center p-2 text-gray-900 rounded-lg hover:text-white hover:bg-[#333331]  group"
+              >
+                <Heroicons.icon name="key" type="outline" class="h-4 w-4" />
+                <span class="flex-1 ms-3 whitespace-nowrap">Permissions</span>
+              </.link>
+            </li>
+          <% end %>
 
           <li>
             <.link
