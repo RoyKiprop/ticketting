@@ -2,6 +2,7 @@ defmodule TickettingWeb.Router do
   use TickettingWeb, :router
 
   import TickettingWeb.UserAuth
+  alias TickettingWeb.Plugs.Permission
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -12,6 +13,10 @@ defmodule TickettingWeb.Router do
     plug :put_secure_browser_headers
     plug :fetch_current_user
     plug :set_user_permissions
+  end
+
+  pipeline :authorized do
+    plug Permission
   end
 
   pipeline :api do
@@ -63,10 +68,43 @@ defmodule TickettingWeb.Router do
   end
 
   scope "/", TickettingWeb do
-    pipe_through [:browser, :require_authenticated_user]
+    pipe_through [:browser, :authorized, :require_authenticated_user]
 
-    live_session :require_authenticated_user,
-      on_mount: [{TickettingWeb.UserAuth, :ensure_authenticated}] do
+    live_session :protected,
+      on_mount: [
+        {TickettingWeb.UserAuth, :ensure_authenticated},
+        {TickettingWeb.UserAuth, :set_user_permissions}
+      ] do
+      live "/roles", RoleLive.Index, :index
+      live "/roles/new", RoleLive.Index, :new
+      live "/roles/:id/edit", RoleLive.Index, :edit
+      live "/roles/:id", RoleLive.Show, :show
+      live "/roles/:id/add_permission", RoleLive.Show, :add_permission
+
+      live "/permissions", PermissionLive.Index, :index
+      live "/permissions/new", PermissionLive.Index, :new
+      live "/permissions/:id/edit", PermissionLive.Index, :edit
+      live "/permissions/:id", PermissionLive.Show, :show
+      live "/permissions/:id/show/edit", PermissionLive.Show, :edit
+
+      live "/events", EventLive.Index, :index
+      live "/events/new", EventLive.Index, :new
+      live "/events/:id/edit", EventLive.Index, :edit
+      live "/events/:id", EventLive.Show, :show
+      live "/events/:id/show/edit", EventLive.Show, :edit
+
+      live "/dashboard", DashboardLive.Index, :index
+
+      live "/ticket_types", TicketTypeLive.Index, :index
+      live "/ticket_types/new", TicketTypeLive.Index, :new
+      live "/ticket_types/:id/edit", TicketTypeLive.Index, :edit
+      live "/ticket_types/:id", TicketTypeLive.Show, :show
+      live "/ticket_types/:id/show/edit", TicketTypeLive.Show, :edit
+
+      live "/users", UserLive.Index, :index
+      live "/users/new", UserLive.Index, :new
+      live "/users/:id/edit", UserLive.Index, :edit
+
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
     end
@@ -92,46 +130,6 @@ defmodule TickettingWeb.Router do
 
       live "/:slug/tickets", TicketDetailsLive.Index, :index
       live "/:slug/tickets/buy", TicketDetailsLive.Buy
-
-      live "/dashboard", DashboardLive.Index, :index
-      live "/roles", RoleLive.Index, :index
-      live "/roles/new", RoleLive.Index, :new
-      live "/roles/:id/edit", RoleLive.Index, :edit
-
-      live "/roles/:id", RoleLive.Show, :show
-      live "/roles/:id/add_permission", RoleLive.Show, :add_permission
-
-      live "/permissions", PermissionLive.Index, :index
-      live "/permissions/new", PermissionLive.Index, :new
-      live "/permissions/:id/edit", PermissionLive.Index, :edit
-
-      live "/permissions/:id", PermissionLive.Show, :show
-      live "/permissions/:id/show/edit", PermissionLive.Show, :edit
-
-      live "/events", EventLive.Index, :index
-      live "/events/new", EventLive.Index, :new
-      live "/events/:id/edit", EventLive.Index, :edit
-
-      live "/events/:id", EventLive.Show, :show
-      live "/events/:id/show/edit", EventLive.Show, :edit
-
-      live "/tickets", TicketLive.Index, :index
-      live "/tickets/new", TicketLive.Index, :new
-      live "/tickets/:id/edit", TicketLive.Index, :edit
-
-      live "/tickets/:id", TicketLive.Show, :show
-      live "/tickets/:id/show/edit", TicketLive.Show, :edit
-
-      live "/ticket_types", TicketTypeLive.Index, :index
-      live "/ticket_types/new", TicketTypeLive.Index, :new
-      live "/ticket_types/:id/edit", TicketTypeLive.Index, :edit
-
-      live "/ticket_types/:id", TicketTypeLive.Show, :show
-      live "/ticket_types/:id/show/edit", TicketTypeLive.Show, :edit
-
-      live "/users", UserLive.Index, :index
-      live "/users/new", UserLive.Index, :new
-      live "/users/:id/edit", UserLive.Index, :edit
     end
   end
 end
