@@ -20,18 +20,20 @@ defmodule TickettingWeb.HomeComponents do
             </p>
 
             <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-6">
-              <a
-                href="#"
+              <.link
+                navigate="/all-events"
                 class="w-full sm:w-auto px-8 py-4 bg-gray-900 text-white rounded-full font-medium hover:bg-gray-800 transform hover:-translate-y-0.5 transition-all duration-200 shadow-lg hover:shadow-xl"
               >
-                Buy Tickets
-              </a>
-              <a
-                href="#"
-                class="w-full sm:w-auto px-8 py-4 border-2 border-gray-900 text-gray-900 rounded-full font-medium hover:bg-gray-900 hover:text-white transform hover:-translate-y-0.5 transition-all duration-200"
-              >
-                Register An Event
-              </a>
+                Explore Events
+              </.link>
+              <%= if @current_user && "add-events" in @permissions do %>
+                <.link
+                  navigate="/events"
+                  class="w-full sm:w-auto px-8 py-4 border-2 border-gray-900 text-gray-900 rounded-full font-medium hover:bg-gray-900 hover:text-white transform hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  Register An Event
+                </.link>
+              <% end %>
             </div>
           </div>
 

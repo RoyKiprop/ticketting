@@ -28,7 +28,7 @@ defmodule TickettingWeb.HomeLive.Index do
   def render(assigns) do
     ~H"""
     <div>
-      <.hero />
+      <.hero current_user={@current_user} permissions={@user_permissions} />
       <.events upcoming_events={@upcoming_events} />
       <.purchase_guide />
       <.faqs open_faq={@open_faq} />
