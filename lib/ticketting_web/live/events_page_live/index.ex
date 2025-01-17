@@ -12,6 +12,7 @@ defmodule TickettingWeb.EventsPageLive.Index do
 
   def render(assigns) do
     ~H"""
+    <.events_hero />
     <.all_events active_events={@active_events} />
     <.steps />
     <.join_brands />
