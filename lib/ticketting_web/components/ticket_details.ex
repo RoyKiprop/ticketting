@@ -26,7 +26,7 @@ defmodule TickettingWeb.TicketDetails do
 
       <div>
         <div class="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-8">
-          <div class="w-full md:w-2/5 mb-4 md:mb-0 h-[50vh] md:h-[70vh]">
+          <div class="w-full md:w-2/5 mb-4 md:mb-0 h-[50vh] md:h-[75vh]">
             <img
               src={@event.image}
               alt="Event Poster"
@@ -119,9 +119,9 @@ defmodule TickettingWeb.TicketDetails do
                       {"linkedin", "#"},
                       {"whatsapp", "#"}
                     ] do %>
-                  <a href={link} class="hover:text-[#312f7e]/60 transition-colors text-xl">
+                  <.link navigate={link} class="hover:text-[#312f7e]/60 transition-colors text-xl">
                     <i class={"bi bi-#{icon}"}></i>
-                  </a>
+                  </.link>
                 <% end %>
               </div>
             </div>
@@ -134,17 +134,14 @@ defmodule TickettingWeb.TicketDetails do
 
   def price_options(assigns) do
     ~H"""
-    <section class="w-full  bg-gray-50">
+    <section class="w-full  ">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1500px] mx-auto px-4 py-16">
         <%= for ticket <- @ticket_types do %>
           <div class="
-            bg-white
-            rounded
-            shadow-md
-            overflow-hidden
+            bg-gray-50
 
             border-l-4
-            border-[#7fc8ff]
+            border-blue-500
             flex
             flex-col
           ">
@@ -152,18 +149,18 @@ defmodule TickettingWeb.TicketDetails do
               <h2 class="text-2xl font-bold text-gray-800 mb-2"><%= ticket.name %></h2>
               <p class="text-gray-600 mb-4 text-xs"><%= ticket.description %></p>
 
-              <div class="mb-4 text-gray-700">
+              <div class="mb-4 text-gray-700 space-y-1">
                 <p class="text-sm">
-                  <span class="font-semibold">Valid From:</span>
+                  <span class="font-bold">Valid From:</span>
                   <%= Timex.format!(ticket.activate_on, "{Mfull} {D}, {YYYY}") %>
                 </p>
                 <p class="text-sm">
-                  <span class="font-semibold">To:</span>
+                  <span class="font-bold">To:</span>
                   <%= Timex.format!(ticket.deactivate_on, "{Mfull} {D}, {YYYY}") %>
                 </p>
               </div>
 
-              <div class="text-3xl font-bold text-[#7fc8ff] mb-6">
+              <div class="text-3xl font-bold text-blue-600 mb-6">
                 Ksh. <%= ticket.price %>
               </div>
 
@@ -173,12 +170,12 @@ defmodule TickettingWeb.TicketDetails do
                 phx-value-price={ticket.price}
                 class="
                   w-full
-                  bg-[#7fc8ff]
+                  bg-blue-600
                   text-white
                   font-bold
                   py-3
                   rounded-lg
-                  hover:bg-[#7fc8ff]/60
+                  hover:bg-blue-700
                   transition
                   duration-300
                   ease-in-out
@@ -251,7 +248,7 @@ defmodule TickettingWeb.TicketDetails do
               <button
                 phx-click="view-event"
                 phx-value-slug={random_event.slug}
-                class="w-full mt-4 bg-[#7fc8ff] text-white py-2 rounded-lg hover:bg-[#7fc8ff]/60 transition duration-300 ease-in-out"
+                class="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out"
               >
                 Get Tickets
               </button>

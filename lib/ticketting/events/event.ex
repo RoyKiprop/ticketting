@@ -43,7 +43,8 @@ defmodule Ticketting.Events.Event do
       :start_time,
       :end_time,
       :is_active,
-      :date
+      :date,
+      :user_id
     ])
     |> generate_slug()
   end

@@ -23,6 +23,19 @@ defmodule Ticketting.Events do
   end
 
   @doc """
+
+  Returns the list of events or specific users
+
+  """
+
+  def list_user_events(user_id) do
+    Repo.all(
+      from e in Event,
+        where: e.user_id == ^user_id
+    )
+  end
+
+  @doc """
   Gets a single event.
 
   Raises `Ecto.NoResultsError` if the Event does not exist.
@@ -47,7 +60,7 @@ defmodule Ticketting.Events do
         where: e.slug == ^slug,
         preload: [ticket_types: tt]
 
-    Repo.one!(query)
+    Repo.one(query)
   end
 
   @doc """

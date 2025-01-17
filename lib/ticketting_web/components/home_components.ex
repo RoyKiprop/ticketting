@@ -58,8 +58,8 @@ defmodule TickettingWeb.HomeComponents do
             Discover and book your next amazing experience
           </p>
         </div>
-        <a
-          href="#"
+        <.link
+          navigate="/all-events"
           class="group inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-200"
         >
           View All Events
@@ -71,7 +71,7 @@ defmodule TickettingWeb.HomeComponents do
           >
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
           </svg>
-        </a>
+        </.link>
       </div>
 
       <%= if Enum.empty?(@upcoming_events) do %>
@@ -112,7 +112,7 @@ defmodule TickettingWeb.HomeComponents do
       <% else %>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           <%= for event <- @upcoming_events do %>
-            <div class="group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+            <div class="group bg-white rounded-xl border-2 overflow-hidden">
               <div class="relative aspect-[4/3] overflow-hidden">
                 <img
                   src={event.image}
