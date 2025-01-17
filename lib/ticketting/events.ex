@@ -8,6 +8,7 @@ defmodule Ticketting.Events do
 
   alias Ticketting.Events.Event
   alias Ticketting.TicketTypes.TicketType
+  alias Ticketting.Accounts.{Role, User}
 
   @doc """
   Returns the list of events.
@@ -28,11 +29,22 @@ defmodule Ticketting.Events do
 
   """
 
-  def list_user_events(user_id) do
-    Repo.all(
-      from e in Event,
-        where: e.user_id == ^user_id
-    )
+  def list_user_events(user) do
+    user_role =
+      User
+      |> Repo.get(user.id)
+      |> Repo.preload(:role)
+
+    case user_role.role.slug do
+      "super-admin" ->
+        Repo.all(Event)
+
+      "admin" ->
+        Repo.all(
+          from e in Event,
+            where: e.user_id == ^user.id
+        )
+    end
   end
 
   @doc """
@@ -159,5 +171,101 @@ defmodule Ticketting.Events do
   """
   def change_event(%Event{} = event, attrs \\ %{}) do
     Event.changeset(event, attrs)
+  end
+
+  alias Ticketting.Events.EventOrganizer
+
+  @doc """
+  Returns the list of event_organizers.
+
+  ## Examples
+
+      iex> list_event_organizers()
+      [%EventOrganizer{}, ...]
+
+  """
+  def list_event_organizers do
+    Repo.all(EventOrganizer)
+  end
+
+  @doc """
+  Gets a single event_organizer.
+
+  Raises `Ecto.NoResultsError` if the Event organizer does not exist.
+
+  ## Examples
+
+      iex> get_event_organizer!(123)
+      %EventOrganizer{}
+
+      iex> get_event_organizer!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_event_organizer!(id), do: Repo.get!(EventOrganizer, id)
+
+  @doc """
+  Creates a event_organizer.
+
+  ## Examples
+
+      iex> create_event_organizer(%{field: value})
+      {:ok, %EventOrganizer{}}
+
+      iex> create_event_organizer(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_event_organizer(attrs \\ %{}) do
+    %EventOrganizer{}
+    |> EventOrganizer.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a event_organizer.
+
+  ## Examples
+
+      iex> update_event_organizer(event_organizer, %{field: new_value})
+      {:ok, %EventOrganizer{}}
+
+      iex> update_event_organizer(event_organizer, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_event_organizer(%EventOrganizer{} = event_organizer, attrs) do
+    event_organizer
+    |> EventOrganizer.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a event_organizer.
+
+  ## Examples
+
+      iex> delete_event_organizer(event_organizer)
+      {:ok, %EventOrganizer{}}
+
+      iex> delete_event_organizer(event_organizer)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_event_organizer(%EventOrganizer{} = event_organizer) do
+    Repo.delete(event_organizer)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking event_organizer changes.
+
+  ## Examples
+
+      iex> change_event_organizer(event_organizer)
+      %Ecto.Changeset{data: %EventOrganizer{}}
+
+  """
+  def change_event_organizer(%EventOrganizer{} = event_organizer, attrs \\ %{}) do
+    EventOrganizer.changeset(event_organizer, attrs)
   end
 end

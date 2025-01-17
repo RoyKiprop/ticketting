@@ -6,7 +6,7 @@ defmodule TickettingWeb.EventLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :events, Events.list_user_events(socket.assigns.current_user.id))}
+    {:ok, stream(socket, :events, Events.list_user_events(socket.assigns.current_user))}
   end
 
   @impl true

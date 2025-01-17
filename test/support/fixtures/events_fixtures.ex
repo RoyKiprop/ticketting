@@ -25,4 +25,18 @@ defmodule Ticketting.EventsFixtures do
 
     event
   end
+
+  @doc """
+  Generate a event_organizer.
+  """
+  def event_organizer_fixture(attrs \\ %{}) do
+    {:ok, event_organizer} =
+      attrs
+      |> Enum.into(%{
+
+      })
+      |> Ticketting.Events.create_event_organizer()
+
+    event_organizer
+  end
 end

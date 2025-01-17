@@ -72,4 +72,56 @@ defmodule Ticketting.EventsTest do
       assert %Ecto.Changeset{} = Events.change_event(event)
     end
   end
+
+  describe "event_organizers" do
+    alias Ticketting.Events.EventOrganizer
+
+    import Ticketting.EventsFixtures
+
+    @invalid_attrs %{}
+
+    test "list_event_organizers/0 returns all event_organizers" do
+      event_organizer = event_organizer_fixture()
+      assert Events.list_event_organizers() == [event_organizer]
+    end
+
+    test "get_event_organizer!/1 returns the event_organizer with given id" do
+      event_organizer = event_organizer_fixture()
+      assert Events.get_event_organizer!(event_organizer.id) == event_organizer
+    end
+
+    test "create_event_organizer/1 with valid data creates a event_organizer" do
+      valid_attrs = %{}
+
+      assert {:ok, %EventOrganizer{} = event_organizer} = Events.create_event_organizer(valid_attrs)
+    end
+
+    test "create_event_organizer/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Events.create_event_organizer(@invalid_attrs)
+    end
+
+    test "update_event_organizer/2 with valid data updates the event_organizer" do
+      event_organizer = event_organizer_fixture()
+      update_attrs = %{}
+
+      assert {:ok, %EventOrganizer{} = event_organizer} = Events.update_event_organizer(event_organizer, update_attrs)
+    end
+
+    test "update_event_organizer/2 with invalid data returns error changeset" do
+      event_organizer = event_organizer_fixture()
+      assert {:error, %Ecto.Changeset{}} = Events.update_event_organizer(event_organizer, @invalid_attrs)
+      assert event_organizer == Events.get_event_organizer!(event_organizer.id)
+    end
+
+    test "delete_event_organizer/1 deletes the event_organizer" do
+      event_organizer = event_organizer_fixture()
+      assert {:ok, %EventOrganizer{}} = Events.delete_event_organizer(event_organizer)
+      assert_raise Ecto.NoResultsError, fn -> Events.get_event_organizer!(event_organizer.id) end
+    end
+
+    test "change_event_organizer/1 returns a event_organizer changeset" do
+      event_organizer = event_organizer_fixture()
+      assert %Ecto.Changeset{} = Events.change_event_organizer(event_organizer)
+    end
+  end
 end
